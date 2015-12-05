@@ -7,3 +7,5 @@ Building this with:
 * JSP
 
 Goal for later: add AngularJS
+
+Add bootstrap?
