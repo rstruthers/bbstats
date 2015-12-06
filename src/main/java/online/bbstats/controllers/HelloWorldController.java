@@ -14,7 +14,7 @@ public class HelloWorldController {
        ModelAndView mav = new ModelAndView();
        mav.setViewName("hello");
         
-       String str = "Hello World!";
+       String str = "Hello World - this is bbstats!";
        mav.addObject("message", str);
 
        return mav;
@@ -24,8 +24,6 @@ public class HelloWorldController {
    public ModelAndView welcome() {
        ModelAndView mav = new ModelAndView();
        mav.setViewName("welcome");
-        
-
        return mav;
    }
    
