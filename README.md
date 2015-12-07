@@ -11,10 +11,9 @@ Building this with:
 * JSTL 1.2
 * JPA
 * MySQL
+* Bootstrap
 
 Goal for later: add AngularJS
-
-Add bootstrap?
 
 ## How to run
 

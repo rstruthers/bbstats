@@ -19,7 +19,12 @@
 ## AngularJS
 * [Spring and Angular JS: A Secure Single Page Application](https://spring.io/blog/2015/01/12/spring-and-angular-js-a-secure-single-page-application)
 * [The Login Page: Angular JS and Spring Security Part II](https://spring.io/blog/2015/01/12/the-login-page-angular-js-and-spring-security-part-ii)
+* [trackr: An AngularJS app with a Java 8 backend – Part I](http://blog.techdev.de/trackr-an-angularjs-app-with-a-java-8-backend-part-i/)
+* [Consuming a RESTful Web Service with AngularJS](https://spring.io/guides/gs/consuming-rest-angularjs/)
 
+## Bootstrap
+* [w3schools.com Bootstrap Forms](http://www.w3schools.com/bootstrap/bootstrap_forms.asp)
+* [Bare - An unstlyed starter template for Bootstrap 3 with predefined file paths for easy development.](http://startbootstrap.com/template-overviews/bare/)
 
 
 

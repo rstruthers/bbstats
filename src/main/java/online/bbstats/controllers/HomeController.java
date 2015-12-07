@@ -15,5 +15,11 @@ public class HomeController {
         LOGGER.debug("Getting home page");
         return "home";
     }
+    
+    @RequestMapping("/index")
+    public String getFooPage() {
+        LOGGER.debug("Getting index page");
+        return "index";
+    }
 
 }
