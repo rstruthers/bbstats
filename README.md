@@ -2,9 +2,15 @@
 
 Building this with:
 
+* Java 8
+* Gradle
+* Spring 4
 * Spring Boot
 * Spring MVC
 * JSP
+* JSTL 1.2
+* JPA
+* MySQL
 
 Goal for later: add AngularJS
 
