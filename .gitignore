@@ -10,3 +10,5 @@
 .springbeans
 
 *.log
+
+application.properties.save
