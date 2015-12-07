@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -jar build/remoteSources/webapp-runner.jar --port $PORT build/libs/*.war
+java $JAVA_OPTS -jar build/remoteSources/webapp-runner.jar --port $PORT build/libs/*.war
