@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Bare - Start Bootstrap Template</title>
+<title>Bbstats home</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -28,6 +28,8 @@ body {
 .center form {
 	margin: 0 auto;
 }
+
+.top-buffer { margin-top:20px; }
 </style>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -37,7 +39,6 @@ body {
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<title>Bbstats</title>
 </head>
 
 <body>
@@ -74,19 +75,14 @@ body {
 
 		<div class="row">
 			<div class="col-lg-12 text-center">
-				<h1>Bbstats homee</h1>
+				<h1>Bbstats home</h1>
 				<p class="lead">Put your baseball stats online!</p>
 				<ul class="list-unstyled">
 					<li>Bootstrap v3.3.6</li>
 					<li>jQuery v1.11.1</li>
 				</ul>
 				<h2>Please login</h2>
-				<c:if test="${param.error ne null}">
-					<div>Invalid username and password.</div>
-				</c:if>
-				<c:if test="${param.logout ne null}">
-					<div>You have been logged out.</div>
-				</c:if>
+
 			</div>
 		</div>
 		<div class="row">
@@ -117,9 +113,20 @@ body {
 						in</button>
 				</div>
 			</form>
+			
 
 		</div>
 		<!-- /.row -->
+		<div class="row top-buffer">
+				<div class="col-lg-12 text-center">
+					<c:if test="${param.error ne null}">
+						<p>Invalid username and password.</p>
+					</c:if>
+					<c:if test="${param.logout ne null}">
+						<p>You have been logged out.</p>
+					</c:if>
+				</div>
+			</div>
 
 	</div>
 	<!-- /.container -->

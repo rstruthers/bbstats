@@ -15,6 +15,11 @@ Building this with:
 
 Goal for later: add AngularJS
 
+## Setup
+
+### MySQL Setup
+
+
 ## How to run
 
 `gradlew clean build bootRun`
