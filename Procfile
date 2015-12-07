@@ -1,1 +1,1 @@
-java $JAVA_OPTS -jar build/remoteSources/webapp-runner.jar --port $PORT build/libs/*.war
+web: java $JAVA_OPTS -jar webapp-runner-8.0.24.1.jar --port $PORT build/libs/*.war
