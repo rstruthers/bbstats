@@ -11,9 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-//@SuppressWarnings("deprecation")
-//@Configuration
-//@EnableWebMvcSecurity
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
@@ -27,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/", "/angular-demo.html").permitAll()
+                .antMatchers("/", "/angular-demo.html", "/header.jsp", "/footer.jsp").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
