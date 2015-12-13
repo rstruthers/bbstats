@@ -40,6 +40,20 @@
 	crossorigin="anonymous"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ <script language="Javascript">
+        $(document).ready(function(){
+            $('input').keypress(function(e) { 
+                var s = String.fromCharCode( e.which );
+
+                if((s.toUpperCase() === s && s.toLowerCase() !== s && !e.shiftKey) ||
+                   (s.toUpperCase() !== s && s.toLowerCase() === s && e.shiftKey)){
+                    if($('#capsalert').length < 1) $(this).after('<b id="capsalert">CapsLock is on!</b>');
+                } else {
+                    if($('#capsalert').length > 0 ) $('#capsalert').remove();
+                }
+            });
+        });
+    </script>
 
 <!-- Custom CSS -->
 <style>
@@ -82,16 +96,14 @@ body {
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="#">About</a></li>
-					<li><a href="#">Services</a></li>
-					<li><a href="#">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 				<c:choose>
 					<c:when test="${empty currentUser}">
-						<li><a href="${contextPath}/login">Login</a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="javascript:document.getElementById('logout-form').submit();">Logout</a></li>
+				        <li><a href="javascript:document.getElementById('logout-form').submit();">Logout</a></li>                 
+				    
 					</c:otherwise>
 				</c:choose>
 				</ul>

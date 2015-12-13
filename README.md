@@ -1,6 +1,6 @@
 # bbstats
 
-Building this with:
+## Building this with:
 
 * Java 8
 * Gradle
@@ -12,13 +12,7 @@ Building this with:
 * JPA
 * MySQL
 * Bootstrap
-
-Goal for later: add AngularJS
-
-## Setup
-
-### MySQL Setup
-
+* jQuery
 
 ## How to run
 
