@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head lang="en">
+<title>Home page</title>
+</head>
+<body>
+
+	<div class="row" layout:fragment="content">
+
+		<h4 class="indigo-text center">Please enter a search term</h4>
+
+		<div class="col s6 offset-s3">
+			<ul>
+				
+				<li><a href="/user/create">Create a new user</a></li>
+	        	<li><a href="/users">View all users</a></li>
+			</ul>
+		</div>
+	</div>
+
+</body>
+</html>

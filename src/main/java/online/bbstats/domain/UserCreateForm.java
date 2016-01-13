@@ -1,12 +1,10 @@
 package online.bbstats.domain;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserCreateForm {
-	@NotEmpty
-	private String username = "";
 
     @NotEmpty
     private String email = "";
@@ -61,13 +59,5 @@ public class UserCreateForm {
                 ", role=" + role +
                 '}';
     }
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 }

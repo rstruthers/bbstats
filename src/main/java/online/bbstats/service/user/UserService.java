@@ -17,6 +17,4 @@ public interface UserService {
 
     User create(UserCreateForm form);
 
-   Optional<User> getUserByUsername(String username);
-
 }

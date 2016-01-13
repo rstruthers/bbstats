@@ -15,6 +15,4 @@ public class HomeController {
         LOGGER.debug("Getting home page");
         return "home";
     }
-   
-
 }

@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+        <!-- Activte the annotation driven implementations-->
+        <mvc:annotation-driven />
+	<mvc:default-servlet-handler />
+	<mvc:view-controller path="/content/contentok" view-name="content/contentok" />
+	<mvc:view-controller path="/profile/newuserok" view-name="profile/newuserok" />
+        <mvc:resources mapping="/resources/**" location="/resources/" />
+    
+        <!-- Load up all controllers in the com.stephengream.simplecms.controllers package. Saves having a seperate bean entry for ever controller -->
+	<context:component-scan base-package="com.stephengream.simplecms.web.controllers" />
+                
+        <!-- Load up the messages.properties file -->
+        <bean id="messageSource" 
+            class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+            p:basename="classpath:messages"/>
+
+        <!-- Register Thymeleaf's view resolver and pass it the path to the view folder -->        
+        <bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+            <property name="prefix" value="/WEB-INF/pages/" />
+            <property name="suffix" value=".html" />
+            <property name="templateMode" value="HTML5" />
+        </bean>
+
+        <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+            <property name="templateResolver" ref="templateResolver" />
+            <property name="additionalDialects">
+                <set>
+                    <!-- Set up the Spring security dialect in templates -->
+                    <bean class="org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect" />
+                </set>
+            </property>
+        </bean>
+        
+        <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+            <property name="templateEngine" ref="templateEngine" />
+            <property name="order" value="1" />
+        </bean>
+</beans>
