@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head lang="en">
+
+<style>
+body {
+  padding-top: 50px;
+  background-color: #eee;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+</style>
+<title>User Admin</title>
+</head>
+<body>
+
+	<div class="container" layout:fragment="content">
+ 	<div class="starter-template">
+
+		<h1>User Admin</h1>
+
+			
+				<p><a href="/user/create">Create a new user</a></p>
+	        	<p><a href="/users">View all users</a></p>
+		</div>
+	</div>
+
+</body>
+</html>

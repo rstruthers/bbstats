@@ -1,5 +1,6 @@
 package online.bbstats.service.currentuser;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,10 @@ public class CurrentUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public CurrentUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username=%s was not found", username)));
+    public CurrentUser loadUserByUsername(String email) throws UsernameNotFoundException {
+        LOGGER.debug("Authenticating user with email={}", email.replaceFirst("@.*", "@***"));
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));
         return new CurrentUser(user);
     }
 

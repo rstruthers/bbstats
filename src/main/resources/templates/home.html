@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head lang="en">
+<title>BBStats Home</title>
+<style>
+body {
+  padding-top: 50px;
+  background-color: #eee;
+}
+    height: 100%;
+}
+.container-table {
+    display: table;
+}
+.centerBlock {
+                display: table;
+                margin: 0 auto;
+                text-align: center;
+            }
+ 
+</style>
+
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+   
+
+<div class="container" layout:fragment="content">
+ <div class="centerBlock">
+	<img alt="" src="/images/baseball.png"/>
+	<h1>BBStats</h1>
+	<p>Put your stats in the cloud!</p>
+	<div sec:authorize="!isAuthenticated()">
+		<a href="/login">Log in</a>
+	</div>
+       <div sec:authorize="isAuthenticated()">
+		<p>Welcome <b sec:authentication="name" />!</p>
+		<p><a href="/teams">View teams</a></p>
+        <p><a href="/team/create">Create a team</a></p>
+        <p><a href="/players">View players</a></p>
+        <p><a href="/player/create">Create a player</a></p>
+        <p><a href="/admin/users">User admin</a></p>
+	</div>
+</div>
+</div>
+</body>
+</html>

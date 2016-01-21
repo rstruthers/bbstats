@@ -1,5 +1,8 @@
 package online.bbstats.service.user;
 
+import java.util.Collection;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import online.bbstats.domain.User;
 import online.bbstats.domain.UserCreateForm;
-import online.bbstats.repositories.UserRepository;
-
-import java.util.Collection;
-import java.util.Optional;
+import online.bbstats.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,13 +51,5 @@ public class UserServiceImpl implements UserService {
         user.setRole(form.getRole());
         return userRepository.save(user);
     }
-
-	@Override
-	public Optional<User> getUserByUsername(String username) {
-		// TODO Auto-generated method stub
-		return userRepository.findOneByUsername(username);
-	}
-
-	
 
 }

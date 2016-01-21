@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+    <title>Login</title>
+    
+
+
+
+    <style>
+    body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+    </style>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+        <form class="form-signin" action="/login" method="post">
+        	 <h2 class="form-signin-heading">Please login</h2>
+        	 <div id="errorMessage" class="card-panel red lighten-2" th:if="${param.error}">
+           			 <span>Invalid user name or password</span>
+        	</div>
+        	<label for="email" class="sr-only">Email</label>
+            <input id="email" name="email" type="text" class="form-control"/>
+            <label for="password" class="sr-only">Password</label>
+            <input id="password" name="password" type="password" class="form-control"/>
+            <div class="checkbox">
+         <label>
+           <input type="checkbox" value="remember-me"  name="remember-me" id="remember-me"/> Remember me
+         </label>
+   			</div>
+         
+      <button class="btn btn-lg btn-primary btn-block" type="submit" name="action">Sign in</button>
+           
+        </form>
+</div>
+</body>
+</html>

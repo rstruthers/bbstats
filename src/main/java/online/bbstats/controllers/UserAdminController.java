@@ -6,13 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HomeController {
+public class UserAdminController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-
-    @RequestMapping("/")
+    @RequestMapping("/admin/users")
     public String getHomePage() {
-        LOGGER.debug("Getting home page");
-        return "home";
+        LOGGER.debug("Getting user admin page");
+        return "user_admin";
     }
 }
