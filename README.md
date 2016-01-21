@@ -7,12 +7,10 @@
 * Spring 4
 * Spring Boot
 * Spring MVC
-* JSP
-* JSTL 1.2
+* Spring Thymeleaf
 * JPA
 * MySQL
 * Bootstrap
-* jQuery
 
 ## How to run
 
