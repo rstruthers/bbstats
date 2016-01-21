@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head lang="en">
+<title>View Users</title>
+<style>
+body {
+  background-color: #eee;
+  }
+ </style>
+</head>
+<body>
+
+	<div class="row" layout:fragment="content">
+
+		<h4 class="indigo-text center">Users</h4>
+		<div class="col s6 offset-s3">
+
+			<table class="bordered centered responsive-table">
+			<thead>
+				<tr>
+					<th data-field="email">Email Address</th>
+					<th data-field="role">Role</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="user : ${users}">
+					<td th:text="${user.email}">email</td>
+					<td th:text="${user.role}">role</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>
