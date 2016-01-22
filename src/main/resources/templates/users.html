@@ -4,35 +4,51 @@
 	layout:decorator="layout/default">
 <head lang="en">
 <title>View Users</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
 <style>
 body {
   background-color: #eee;
-  }
- </style>
+}
+html, body, .container-table {
+    height: 100%;
+}
+.container-table {
+    display: table;
+}
+
+</style>
 </head>
 <body>
 
-	<div class="row" layout:fragment="content">
-
-		<h4 class="indigo-text center">Users</h4>
+<div class="container" layout:fragment="content">
+	<div class="col-md-4 col-md-offset-4">
+		<h1 style="text-align: center;">Users</h1>
 		<div class="col s6 offset-s3">
-
-			<table class="bordered centered responsive-table">
-			<thead>
-				<tr>
-					<th data-field="email">Email Address</th>
-					<th data-field="role">Role</th>
-				</tr>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th data-field="email">Email Address</th>
+						<th data-field="role">Role</th>
+					</tr>
 				</thead>
 				<tbody>
-				<tr th:each="user : ${users}">
-					<td th:text="${user.email}">email</td>
-					<td th:text="${user.role}">role</td>
-				</tr>
+					<tr th:each="user : ${users}">
+						<td th:text="${user.email}">email</td>
+						<td th:text="${user.role}">role</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
+</div>
 
 </body>
 </html>

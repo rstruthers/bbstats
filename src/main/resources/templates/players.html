@@ -28,30 +28,29 @@ html, body, .container-table {
 </head>
 <body>
 
-	<div class="container" layout:fragment="content">
-		  <div class="col-md-4 col-md-offset-4">
+<div class="container" layout:fragment="content">
+	<div class="col-md-4 col-md-offset-4">
 		<h1 style="text-align: center;">Players</h1>
-
 			<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Age</th>
-					<th>Position</th>
-					<th>Team</th>
-				</tr>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Age</th>
+						<th>Position</th>
+						<th>Team</th>
+					</tr>
 				</thead>
 				<tbody>
-				<tr th:each="player : ${players}">
-					<td th:text="${player.name}">name</td>
-					<td th:text="${player.age}">age</td>
-					<td th:text="${player.position}">position</td>
-					<td th:text="${player.team != null} ? ${player.team.name} : ''">team</td>
-				</tr>
+					<tr th:each="player : ${players}">
+						<td th:text="${player.name}">name</td>
+						<td th:text="${player.age}">age</td>
+						<td th:text="${player.position}">position</td>
+						<td th:text="${player.team != null} ? ${player.team.name} : ''">team</td>
+					</tr>
 				</tbody>
 			</table>
-		</div>
-		</div>
+	</div>
+</div>
 
 </body>
 </html>
