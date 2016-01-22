@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 <head>
-<title>Update Player</title>
+<title>Update Team</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
 
@@ -89,61 +89,44 @@ border-color: red;}
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<form class="form-signin form-horizontal" th:action="@{/player/update}" th:object="${form}" method="post">
-			<h2 class="form-signin-heading">Update a player</h2>
+		<form class="form-signin form-horizontal" th:action="@{/team/update}" method="post" th:object="${form}">
+			<h2 class="form-signin-heading">Update a team</h2>
 			<div id="errorMessage" th:if="${param.error}">
-				
 			</div>
 			
 			<input th:field="${form.id}" id="id" type="hidden" class="form-control"/>
 			
 			<div class="form-group">
-				<label for="name" class="control-label col-sm-2">Name</label>
-				<div class="col-sm-10"> 
-					<input th:field="${form.name}" id="name" type="text" class="form-control" th:errorclass="input-error"/>
+				<label for="name" class="control-label col-sm-2" >Name</label>
+				<div class="col-sm-10 controls"> 
+					<input th:field="${form.name}" id="name" type="text" th:errorclass="input-error" class="form-control"/>
 					<span th:errors="*{name}" class="field-error"> Error</span>
 				</div>
 			</div>
 			
 			<div class="form-group">
-				<label for="team" class="control-label col-sm-2">Team</label>
+				<label for="city" class="control-label col-sm-2">City</label>
 				<div class="col-sm-10"> 
-				 	<select id="team" th:field="${form.team}" class="form-control" th:errorclass="input-error">
-		                <option value="">Select</option>
-		                <option th:each="t : ${teams}" th:value="${t.id}"  th:text="${t.name}"></option>
-		            </select>
-					<span th:errors="*{team}" class="field-error">Error</span>
+					<input th:field="${form.city}" id="city" type="text"  th:errorclass="input-error" class="form-control" />
+					<span th:errors="*{city}" class="field-error"> Error</span>
 				</div>
 			</div>
 			
 			<div class="form-group">
-				<label for="age" class="control-label col-sm-2">Age</label>
+				<label for="state" class="control-label col-sm-2">State</label>
 				<div class="col-sm-10"> 
-					<input th:field="${form.age}" id="age" type="text" class="form-control" th:errorclass="input-error"/>
-					<span th:errors="*{age}" class="field-error"> Error</span>
+					<input th:field="${form.state}"  id="state" type="text" th:errorclass="input-error" class="form-control" />
+					<span th:errors="*{state}" class="field-error"> Error</span>
 				</div>
 			</div>
 			
-			<div class="form-group">
-				<label for="position" class="control-label col-sm-2">Position</label>
-				<div class="col-sm-10"> 
-					<select name="position" class="form-control" th:errorclass="input-error">
-					  <option 
-					  th:each="position : ${T( online.bbstats.repository.domain.Position).values()}" 
-					  th:value="${position}" 
-					  th:text="#{__${position.value}__}" 
-					  th:selected="${position == form.position}">option
-					  </option>
-					</select>
-					<div th:errors="*{position}" class="field-error"> Error</div>
-				</div>
-			</div>
 			<div class="form-actions">
 				<button class="btn btn-primary btn-lg" style="padding-left: 20px; padding-right: 20px;" type="submit"
 					name="action">Submit</button>
-			</div>
+				</div>
+			</form>
+		</div>
+		
 
-		</form>
-	</div>
 </body>
 </html>

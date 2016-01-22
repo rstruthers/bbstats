@@ -30,4 +30,15 @@ public class TeamService {
 		LOGGER.debug("Getting all teams");
 		return teamRepository.findAll();
 	}
+	
+	public Team getTeamById(Long id) {
+		LOGGER.debug("Getting team by id: " + id);
+		return teamRepository.findOne(id);
+	}
+	
+	public void update(TeamForm teamForm) {
+		Team team = new Team();
+		BeanUtils.copyProperties(teamForm, team);
+		teamRepository.save(team);
+	}
 }

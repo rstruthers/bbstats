@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,6 +57,32 @@ public class TeamController {
         // ok, redirect
         return "redirect:/teams";
 	}
+	
+	@RequestMapping(value = "/team/update/{id}", method = RequestMethod.GET)
+	public ModelAndView getTeamUpdateForm(@PathVariable("id") Long id) {
+		LOGGER.debug("Getting team update form");
+		ModelAndView mv = new ModelAndView("team_update");
+		mv.addObject("form", new TeamForm(teamService.getTeamById(id)));
+		return mv;
+	}
+	
+	@RequestMapping(value = "/team/update", method = RequestMethod.POST)
+	public String handleTeamUpdateForm(@Valid @ModelAttribute("form") TeamForm form, BindingResult bindingResult) {
+		LOGGER.debug("Processing team update form={}, bindingResult={}", form, bindingResult);
+		if (bindingResult.hasErrors()) {
+            // failed validation
+            return "team_update";
+        }
+        try {
+            teamService.update(form);
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.warn("Exception occurred when trying to save the team", e);
+            return "team_update";
+        }
+        // ok, redirect
+        return "redirect:/teams";
+	}
+	
 	
 	@RequestMapping("/teams")
     public ModelAndView getTeamListPage() {
