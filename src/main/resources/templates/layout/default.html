@@ -9,6 +9,7 @@
     
 
     <link href="/webjars/bootstrap/3.3.6/css/bootstrap.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    
 </head>
 <body>
 
@@ -27,6 +28,29 @@
 </div>
 -->
 
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">BBStats</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/">Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li sec:authorize="isAuthenticated()">
+       	<a href="#" id="logout">Log out</a>
+        </li>
+        <li sec:authorize="!isAuthenticated()">
+        <a href="/login">Log in</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+<form th:action="@{/logout}" method="post" style="display: none;" id="signout-form">
+        <input type="submit" value="Sign Out" id="signout-button"/>
+    </form>
+
+
 <section layout:fragment="content">
     <p>Page content goes here</p>
 </section>
@@ -36,6 +60,14 @@
  <script type="text/javascript" src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" layout:fragment="script">
+
+$(document).ready(function(){
+
+	$("#logout").click(function(){
+		$( "#signout-form" ).submit();
+	});
+
+	});
 </script>
 </body>
 </html>
