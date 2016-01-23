@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 <head>
-<title>Create Team</title>
+<title>Create League</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
 
@@ -90,8 +90,8 @@ border-color: red;}
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<form class="form-signin form-horizontal" th:action="@{/team/create}" method="post" th:object="${form}">
-			<h2 class="form-signin-heading">Create a team</h2>
+		<form class="form-signin form-horizontal" th:action="@{/league/create}" method="post" th:object="${form}">
+			<h2 class="form-signin-heading">Create a league</h2>
 			<div id="errorMessage" th:if="${param.error}">
 				
 			</div>
@@ -105,27 +105,13 @@ border-color: red;}
 				</div>
 			</div>
 			
-			<div class="form-group">
-				<label for="city" class="control-label col-sm-2">City</label>
-				<div class="col-sm-10"> 
-					<input th:field="${form.city}" id="city" type="text"  th:errorclass="input-error" class="form-control" />
-					<span th:errors="*{city}" class="field-error"> Error</span>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label for="state" class="control-label col-sm-2">State</label>
-				<div class="col-sm-10"> 
-					<input th:field="${form.state}"  id="state" type="text" th:errorclass="input-error" class="form-control" />
-					<span th:errors="*{state}" class="field-error"> Error</span>
-				</div>
-			</div>
 			<div class="form-actions">
 			<button class="btn btn-primary btn-lg" style="padding-left: 20px; padding-right: 20px;" type="submit"
 				name="action">Submit</button>
 			</div>
-		</form>
+		</form>		
 	</div>
+	
 
 </body>
 </html>

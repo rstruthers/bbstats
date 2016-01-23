@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,6 +32,10 @@ public class Team {
 	
 	@OneToMany(mappedBy="team")
 	private List<Player> players;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "league_id")
+	private League league;
 
 	public Long getId() {
 		return id;
@@ -68,5 +75,13 @@ public class Team {
 
 	public void setPlayers(List<Player> players) {
 		this.players = players;
+	}
+
+	public League getLeague() {
+		return league;
+	}
+
+	public void setLeague(League league) {
+		this.league = league;
 	}
 }

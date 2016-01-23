@@ -48,6 +48,8 @@ body {
 	</div>
        <div sec:authorize="isAuthenticated()">
 		<p>Welcome <b sec:authentication="name" />!</p>
+		<p><a href="/leagues">View leagues</a></p>
+        <p><a href="/league/create">Create a league</a></p>
 		<p><a href="/teams">View teams</a></p>
         <p><a href="/team/create">Create a team</a></p>
         <p><a href="/players">View players</a></p>
