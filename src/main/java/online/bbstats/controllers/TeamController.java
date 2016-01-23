@@ -1,5 +1,7 @@
 package online.bbstats.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -18,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import online.bbstats.domain.validator.TeamFormValidator;
 import online.bbstats.forms.TeamForm;
+import online.bbstats.repository.domain.League;
+import online.bbstats.service.LeagueService;
 import online.bbstats.service.TeamService;
 
 @Controller
@@ -28,12 +32,20 @@ public class TeamController {
 	private TeamService teamService;
 	
 	@Autowired
+	private LeagueService leagueService;
+	
+	@Autowired
 	private TeamFormValidator teamFormValidator;
 	
 	@InitBinder("form")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(teamFormValidator);
     }
+	
+	@ModelAttribute("leagues")
+	public List<League> getLeagues() {
+		return leagueService.getAllLeagues();
+	}
 
 	@RequestMapping(value = "/team/create", method = RequestMethod.GET)
 	public ModelAndView getTeamCreateForm() {

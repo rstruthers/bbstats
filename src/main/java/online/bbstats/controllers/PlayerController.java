@@ -31,7 +31,8 @@ public class PlayerController {
 	@Autowired
 	private PlayerService playerService;
 	
-	@Autowired TeamService teamService;
+	@Autowired 
+	private TeamService teamService;
 	
 	@Autowired
 	private PlayerFormValidator playerFormValidator;
@@ -42,10 +43,9 @@ public class PlayerController {
     }
 	
 	@ModelAttribute("teams")
-	public List<Team> getVersion() {
+	public List<Team> getTeams() {
 	   return teamService.getAllTeams();
 	}
-	
 	
 
 	@RequestMapping(value = "/player/create", method = RequestMethod.GET)
