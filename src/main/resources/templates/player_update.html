@@ -18,7 +18,7 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<form class="form-bbstats form-horizontal" th:action="@{/player/update}" th:object="${form}" method="post">
+		<form class="form-bbstats form-bbstats-small form-horizontal" th:action="@{/player/update}" th:object="${form}" method="post">
 			<h2 class="form-bbstats-heading">Update a player</h2>
 			<div id="errorMessage" th:if="${param.error}">
 				

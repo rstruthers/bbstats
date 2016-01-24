@@ -13,11 +13,26 @@ body {
 	text-align: center;
 }
 
+.center-div-user-form{
+    margin: 0 auto;
+    width:50% /* value of your choice which suits your alignment */
+}
+
+.form-bbstats-small {
+	max-width: 350px; 
+}
+
+.form-bbstats-med {
+	max-width: 500px; 
+}
+
 .form-bbstats {
-	max-width: 330px;
+	
 	padding: 15px;
 	margin: 0 auto;
 }
+
+
 
 .form-bbstats .form-bbstats-heading, .form-bbstats .checkbox {
 	margin-bottom: 10px;

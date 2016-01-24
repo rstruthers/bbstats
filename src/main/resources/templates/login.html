@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class="container" layout:fragment="content">
-        <form class="form-bbstats" action="/login" method="post">
+        <form class="form-bbstats form-bbstats-small  form-horizontal" action="/login" method="post">
         	 <h2 class="form-bbstats-heading">Please login</h2>
         	 <div id="errorMessage" class="card-panel red lighten-2" th:if="${param.error}">
            			 <span>Invalid user name or password</span>

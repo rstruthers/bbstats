@@ -4,51 +4,45 @@
 	layout:decorator="layout/default">
 <head lang="en">
 <title>Create User</title>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" type="text/css" href="C:\dev-tools\github\bbstats\src\main\webapp\css\bbstats.css"/>
-
+<style>
+.user-label {
+text-align: left;
+}
+</style>
 </head>
 <body>
 
 <div class="container" layout:fragment="content">
-	<form action="/user/create" method="post" class="form-horizontal form-bbstats" >
+<div class="center-div-user-form">
+	<form class="form-bbstats form-horizontal" action="/user/create" method="post" >
 		<h2 class="form-bbstats-heading">Create a user</h2>
-		<div id="errorMessage" class="card-panel red lighten-2"
-			th:if="${error}">
-			<span class="card-title" th:text="${error}"></span>
+		<div id="errorMessage" th:if="${error}">
+			<span th:text="${error}"></span>
 		</div>
 		
 		<div class="form-group">
-			<label for="email" class="control-label col-sm-4">Email address</label>
+			<label for="email" class="user-label control-label col-sm-4">Email address</label>
 			<div class="col-sm-8"> 
             	<input id="email" name="email" type="email" class="form-control  "/>
             </div>
         </div>
         
         <div class="form-group">
-			<label for="password" class="control-label col-sm-4">Password</label>
+			<label for="password" class="user-label control-label col-sm-4">Password</label>
 			<div class="col-sm-8"> 
             	<input id="password" name="password" type="text" class="form-control"/>
             </div>
         </div>
         
         <div class="form-group">
-			<label for="passwordRepeated" class="control-label col-sm-4">Confirm password</label>
+			<label for="passwordRepeated" class="user-label control-label col-sm-4">Confirm password</label>
 			<div class="col-sm-8"> 
             	<input id="passwordRepeated" name="passwordRepeated" type="text" class="form-control"/>
             </div>
         </div>
         
          <div class="form-group">
-			<label for="role" class="control-label col-sm-4">Role</label>
+			<label for="role" class="user-label control-label col-sm-4">Role</label>
 			<div class="col-sm-8">
 				<select name="role" id="role" class="form-control">
 			      <option value="">Choose your option</option>
@@ -63,6 +57,7 @@
 					name="action">Submit</button>
 		</div>
 	</form>
+</div>
 </div>
 
 </body>
