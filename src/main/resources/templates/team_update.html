@@ -13,83 +13,13 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+<link rel="stylesheet" type="text/css" href="C:\dev-tools\github\bbstats\src\main\webapp\css\bbstats.css"/>
 
-<style>
-body {
-	padding-bottom: 40px;
-	background-color: #eee;
-}
-
-.form-signin {
-	max-width: 430px;
-	padding: 15px;
-	margin: 0 auto;
-}
-
-.form-signin .form-signin-heading, .form-signin .checkbox {
-	margin-bottom: 10px;
-}
-
-.form-signin .form-signin-heading {
-text-align: center;
-padding-bottom: 15px;
-}
-
-.form-signin .checkbox {
-	font-weight: normal;
-}
-
-.form-signin .form-control {
-	position: relative;
-	height: auto;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 10px;
-	font-size: 16px;
-}
-
-.form-signin .form-control:focus {
-	z-index: 2;
-}
-
-.form-signin input[type="email"] {
-	margin-bottom: -1px;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-	margin-bottom: 10px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-}
-
-.form-horizontal .control-label{
-/* text-align:right; */
-text-align:left;
-}
-
-.form-actions {
-    margin: 0;
-    background-color: transparent;
-    text-align: center;
-}
-
-.field-error {
-color: red; 
-font-weight: bold;}
-
-.input-error {
-border-color: red;}
-
-
-</style>
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<form class="form-signin form-horizontal" th:action="@{/team/update}" method="post" th:object="${form}">
-			<h2 class="form-signin-heading">Update a team</h2>
+		<form class="form-bbstats form-horizontal" th:action="@{/team/update}" method="post" th:object="${form}">
+			<h2 class="form-bbstats-heading">Update a team</h2>
 			<div id="errorMessage" th:if="${param.error}">
 			</div>
 			
