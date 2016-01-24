@@ -13,9 +13,14 @@ body {
 	text-align: center;
 }
 
-.center-div-user-form{
+.center-div-form-50{
     margin: 0 auto;
     width:50% /* value of your choice which suits your alignment */
+}
+
+.center-div-form-40{
+    margin: 0 auto;
+    width:40% /* value of your choice which suits your alignment */
 }
 
 .form-bbstats-small {
@@ -90,4 +95,15 @@ body {
 
 .input-error {
 	border-color: red;
+}
+
+.header-error {
+	color: red;
+	font-weight: bold;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+.force-left-align {
+	text-align: left;
 }
