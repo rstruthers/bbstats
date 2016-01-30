@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import online.bbstats.domain.User;
-import online.bbstats.domain.UserCreateForm;
+import online.bbstats.domain.UserForm;
 
 public interface UserService {
 
@@ -15,6 +15,8 @@ public interface UserService {
 
     Collection<User> getAllUsers();
 
-    User create(UserCreateForm form);
+    User create(UserForm form);
+
+	void update(UserForm form);
 
 }

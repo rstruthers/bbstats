@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import online.bbstats.domain.UserCreateForm;
+import online.bbstats.domain.UserForm;
 import online.bbstats.domain.validator.UserCreateFormValidator;
 import online.bbstats.service.user.UserService;
 
@@ -53,15 +53,15 @@ public class UserController {
     @RequestMapping(value = "/user/create", method = RequestMethod.GET)
     public ModelAndView getUserCreatePage() {
         LOGGER.debug("Getting user create form");
-        return new ModelAndView("user_create", "form", new UserCreateForm());
+        return new ModelAndView("user_create", "form", new UserForm());
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
-    public String handleUserCreateForm(@Valid @ModelAttribute("form") UserCreateForm form, BindingResult bindingResult) {
+    public String handleUserCreateForm(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult) {
         LOGGER.debug("Processing user create form={}, bindingResult={}", form, bindingResult);
+        
         if (bindingResult.hasErrors()) {
-            // failed validation
             return "user_create";
         }
         try {
@@ -76,5 +76,6 @@ public class UserController {
         // ok, redirect
         return "redirect:/users";
     }
+    
 
 }

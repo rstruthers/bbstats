@@ -3,53 +3,52 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 <head lang="en">
-<title>Create User</title>
-
+<title>Update User</title>
 </head>
 <body>
 
 <div class="container" layout:fragment="content">
 <div class="center-div-form-50">
-	<form class="form-bbstats form-horizontal" th:action="@{/user/create}" method="post" th:object="${form}">
-		<h2 class="form-bbstats-heading">Create a user</h2>
+	<form class="form-bbstats form-horizontal" th:action="@{/user/update}" method="post" th:object="${form}">
+		<h2 class="form-bbstats-heading">Update a user</h2>
 		<div id="errorMessage" th:if="${error}">
 			<span th:text="${error}"></span>
 		</div>
 		
+		<input th:field="${form.id}" id="id" type="hidden" class="form-control"/>
+		
 		<div class="form-group">
 			<label for="email" class="force-left-align control-label col-sm-4">Email address</label>
 			<div class="col-sm-8"> 
-            	<input th:field="${form.email}" id="email" type="email" th:errorclass="input-error"  class="form-control"/>
+            	<input th:field="${form.email}" id="email" name="email" type="email" th:errorclass="input-error" class="form-control"/>
             	<span th:errors="*{email}" class="field-error">Error</span>
             </div>
         </div>
         
         <div class="form-group">
-			<label for="password" class="force-left-align control-label col-sm-4">Password</label>
+			<label for="password" class="force-left-align control-label col-sm-4">Password - if no change leave blank</label>
 			<div class="col-sm-8"> 
-            	<input th:field="${form.password}" id="password" type="text" th:errorclass="input-error"  class="form-control"/>
+            	<input th:field="${form.password}"  id="password" name="password" type="text" th:errorclass="input-error" class="form-control"/>
             	<span th:errors="*{password}" class="field-error">Error</span>
             </div>
         </div>
         
         <div class="form-group">
-			<label for="passwordRepeated" class="force-left-align control-label col-sm-4">Confirm password</label>
+			<label for="passwordRepeated" class="force-left-align control-label col-sm-4">Confirm password - if no change leave blank</label>
 			<div class="col-sm-8"> 
-            	<input th:field="${form.passwordRepeated}" id="passwordRepeated" type="text" th:errorclass="input-error" class="form-control"/>
+            	<input th:field="${form.passwordRepeated}" id="passwordRepeated" name="passwordRepeated" type="text" th:errorclass="input-error" class="form-control"/>
             	<span th:errors="*{passwordRepeated}" class="field-error">Error</span>
-            	
             </div>
         </div>
         
          <div class="form-group">
 			<label for="role" class="force-left-align control-label col-sm-4">Role</label>
 			<div class="col-sm-8">
-				<select th:field="${form.role}" id="role" class="form-control" th:errorclass="input-error">
+				<select  th:field="${form.role}" name="role" id="role" class="form-control">
 			      <option value="">Choose your option</option>
 			      <option value="USER">USER</option>
 			      <option value="ADMIN">ADMIN</option>
 			    </select> 
-			    <span th:errors="*{role}" class="field-error">Error</span>
             </div>
         </div>
             

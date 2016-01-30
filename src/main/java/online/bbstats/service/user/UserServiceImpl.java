@@ -3,6 +3,7 @@ package online.bbstats.service.user;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import online.bbstats.domain.User;
-import online.bbstats.domain.UserCreateForm;
+import online.bbstats.domain.UserForm;
 import online.bbstats.repository.UserRepository;
 
 @Service
@@ -44,12 +45,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(UserCreateForm form) {
+    public User create(UserForm form) {
         User user = new User();
         user.setEmail(form.getEmail());
         user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getPassword()));
         user.setRole(form.getRole());
         return userRepository.save(user);
     }
+
+	@Override
+	public void update(UserForm form) {
+		Optional<User> userOpt = getUserById(form.getId());
+		User user = userOpt.get();
+		if (user == null) {
+			return;
+		}
+		user.setEmail(form.getEmail());
+		if (StringUtils.trimToNull(form.getPassword()) != null) {
+			user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getPassword()));
+		}
+        user.setRole(form.getRole());
+        userRepository.save(user);
+	}
 
 }
