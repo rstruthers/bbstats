@@ -37,24 +37,24 @@ INSERT INTO `bbstats`.`season_team`
 VALUES
 (1,
 1);
-
-INSERT INTO `bbstats`.`player`
-(`id`,
-`date_of_birth`,
-`name`,
-`position`)
-VALUES
-(1,
-'1930-07-30',
- 'Gus Triandos', 
- 'CATCHER');
- 
- 
-INSERT INTO `bbstats`.`team_player`
-(`start_date`,
-`player_id`,
-`team_id`)
-VALUES
-(str_to_date('4/10/1961','%m/%d/%Y'),
-1,
-1);
+--
+-- INSERT INTO `bbstats`.`player`
+-- (`id`,
+-- `date_of_birth`,
+-- `name`,
+-- `position`)
+-- VALUES
+-- (1,
+-- '1930-07-30',
+-- 'Gus Triandos', 
+-- 'CATCHER');
+-- 
+-- 
+-- INSERT INTO `bbstats`.`team_player`
+-- (`start_date`,
+-- `player_id`,
+-- `team_id`)
+-- VALUES
+-- (str_to_date('4/10/1961','%m/%d/%Y'),
+-- 1,
+-- 1);
