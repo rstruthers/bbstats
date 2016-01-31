@@ -35,8 +35,11 @@ public class Team {
 	@Column(name = "state")
 	private String state;
 	
+//	@OneToMany(mappedBy="team")
+//	private List<Player> players;
+	
 	@OneToMany(mappedBy="team")
-	private List<Player> players;
+	private List<TeamPlayer> teamPlayers;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "league_id")
@@ -80,13 +83,13 @@ public class Team {
 		this.state = state;
 	}
 
-	public List<Player> getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
+//	public List<Player> getPlayers() {
+//		return players;
+//	}
+//
+//	public void setPlayers(List<Player> players) {
+//		this.players = players;
+//	}
 
 	public League getLeague() {
 		return league;
@@ -102,5 +105,13 @@ public class Team {
 
 	public void setSeasons(Set<Season> seasons) {
 		this.seasons = seasons;
+	}
+
+	public List<TeamPlayer> getTeamPlayers() {
+		return teamPlayers;
+	}
+
+	public void setTeamPlayers(List<TeamPlayer> teamPlayers) {
+		this.teamPlayers = teamPlayers;
 	}
 }
