@@ -1,7 +1,10 @@
 package online.bbstats.repository.domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -36,6 +41,12 @@ public class Team {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "league_id")
 	private League league;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "season_team",
+	    joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"),
+	    inverseJoinColumns = @JoinColumn(name = "season_id", referencedColumnName = "id"))
+	private Set<Season> seasons = new HashSet<Season>();
 
 	public Long getId() {
 		return id;
@@ -83,5 +94,13 @@ public class Team {
 
 	public void setLeague(League league) {
 		this.league = league;
+	}
+
+	public Set<Season> getSeasons() {
+		return seasons;
+	}
+
+	public void setSeasons(Set<Season> seasons) {
+		this.seasons = seasons;
 	}
 }
