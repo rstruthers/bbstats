@@ -41,4 +41,8 @@ public class TeamService {
 		BeanUtils.copyProperties(teamForm, team);
 		teamRepository.save(team);
 	}
+
+	public Team findTeamByName(String name) {
+		return teamRepository.findByName(name);
+	}
 }

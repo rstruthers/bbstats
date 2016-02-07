@@ -1,6 +1,7 @@
 package online.bbstats.repository.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,6 +35,19 @@ public class TeamPlayer {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "player_id")
 	private Player player;
+	
+	@OneToMany(mappedBy="teamPlayer")
+	private List<TeamPlayerPosition> teamPlayerPositions;
+	
+	public TeamPlayer() {
+		
+	}
+	
+	public TeamPlayer(Team team, Player player, LocalDate startDate) {
+		this.team = team;
+		this.player = player;
+		this.startDate = startDate;
+	}
 	
 
 	public Long getId() {
@@ -73,6 +88,14 @@ public class TeamPlayer {
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	public List<TeamPlayerPosition> getTeamPlayerPositions() {
+		return teamPlayerPositions;
+	}
+
+	public void setTeamPlayerPositions(List<TeamPlayerPosition> teamPlayerPositions) {
+		this.teamPlayerPositions = teamPlayerPositions;
 	}
 	
 }
