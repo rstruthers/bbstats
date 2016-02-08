@@ -30,10 +30,6 @@ public class Player {
 	
 	@Column(name = "date_of_birth")
 	private LocalDate dateOfBirth;
-
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "team_id")
-//	private Team team;
 	
 	@OneToMany(mappedBy="player")
 	private List<TeamPlayer> teamPlayers;
@@ -63,14 +59,6 @@ public class Player {
 		this.position = position;
 	}
 
-//	public Team getTeam() {
-//		return team;
-//	}
-//
-//	public void setTeam(Team team) {
-//		this.team = team;
-//	}
-
 	public List<TeamPlayer> getTeamPlayers() {
 		return teamPlayers;
 	}
@@ -91,7 +79,6 @@ public class Player {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		if (dateOfBirth == null) {
 			return "";
-			
 		}
 		return formatter.format(dateOfBirth);
 	}
