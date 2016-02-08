@@ -2,12 +2,14 @@ package online.bbstats.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import online.bbstats.BbstatsConstants;
 import online.bbstats.repository.TeamPlayerPositionRepository;
 import online.bbstats.repository.TeamPlayerRepository;
 import online.bbstats.repository.domain.Player;
@@ -68,10 +70,7 @@ public class RosterService {
 			return;
 		}
 		
-		
-		
-		String[] positions = new String[] {"P",	"C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "OF"};
-		for (String position: positions) {
+		for (String position: BbstatsConstants.POSITIONS) {
 			String countAsString = playerValueMap.get(position);
 			if (countAsString == null) {
 				continue;
@@ -113,5 +112,9 @@ public class RosterService {
 			teamPlayerPositionRepository.save(teamPlayerPosition);
 		}
 		return teamPlayerPosition;
+	}
+	
+	public List<TeamPlayer> findTeamPlayersByTeamAndSeason(Team team, Season season) {
+		return teamPlayerRepository.findByTeamIdActiveAtDate(team.getId(), season.getStartDate());
 	}
 }
