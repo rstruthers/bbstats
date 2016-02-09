@@ -1,13 +1,8 @@
 package online.bbstats.controllers;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -21,27 +16,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import online.bbstats.BbstatsConstants;
 import online.bbstats.forms.RosterUploadForm;
-import online.bbstats.model.PlayerPositionModel;
 import online.bbstats.repository.domain.Season;
 import online.bbstats.repository.domain.Team;
-import online.bbstats.repository.domain.TeamPlayer;
-import online.bbstats.repository.domain.TeamPlayerPosition;
 import online.bbstats.service.RosterService;
 import online.bbstats.service.SeasonService;
 import online.bbstats.service.TeamService;
 
 @Controller
 public class RosterUploadController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeamController.class);
-
-    private static String UPLOAD_LOCATION = "C:/dev-tools/mytemp/";
+    private static final Logger LOGGER = LoggerFactory.getLogger(RosterUploadController.class);
 
     @Autowired
     private RosterService rosterService;
@@ -50,7 +37,7 @@ public class RosterUploadController {
     private TeamService teamService;
 
     @Autowired
-    SeasonService seasonService;
+    private SeasonService seasonService;
 
     @RequestMapping(value = "/roster/upload", method = RequestMethod.GET)
     public ModelAndView getRosterUploadForm() {
@@ -59,26 +46,26 @@ public class RosterUploadController {
     }
 
     @RequestMapping(value = "/roster/upload", method = RequestMethod.POST)
-    public ModelAndView postRosterUploadForm(@ModelAttribute("form") RosterUploadForm form) {
+    public String postRosterUploadForm(@ModelAttribute("form") RosterUploadForm form) {
         LOGGER.debug("Uploading roster");
 
         MultipartFile file = form.getFile();
         if (file == null) {
             LOGGER.debug("File is null");
-            return new ModelAndView("roster_upload");
+            return "roster_upload";
         }
         String name = file.getOriginalFilename();
         LOGGER.debug("File name: " + name);
         if (file.isEmpty()) {
             LOGGER.debug("File is empty.");
-            return new ModelAndView("roster_upload");
+            return "roster_upload";
         }
 
         try {
             LOGGER.debug("You successfully uploaded " + name + "!");
         } catch (Exception e) {
             LOGGER.error("You failed to upload " + name + " => " + e.getMessage());
-            return new ModelAndView("roster_upload");
+            return "roster_upload";
         }
 
         Team team = teamService.findTeamByName("Orioles");
@@ -102,8 +89,8 @@ public class RosterUploadController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            LOGGER.error("Failed to read bytes into Excel file");
-            return new ModelAndView("roster_upload");
+            LOGGER.error("Failed to read bytes from Excel file");
+            return "roster_upload";
         } finally {
             try {
                 workbook.close();
@@ -111,35 +98,10 @@ public class RosterUploadController {
                 e.printStackTrace();
             }
         }
-        List<PlayerPositionModel> players = getPlayerPositionModelList(team, season);
-
-        ModelAndView mav = new ModelAndView("roster_view");
-        mav.addObject("team", team);
-        mav.addObject("season", season);
-        mav.addObject("numPlayers", team.getTeamPlayers().size());
-        mav.addObject("positionNames", BbstatsConstants.POSITIONS);
-        mav.addObject("players", players);
-        return mav;
+       
+        return "redirect:/roster/view/season/" + season.getName() + "/team/" + team.getName();
     }
 
-    private List<PlayerPositionModel> getPlayerPositionModelList(Team team, Season season) {
-        List<TeamPlayer> teamPlayers = rosterService.findTeamPlayersByTeamAndSeason(team, season);
-        List<PlayerPositionModel> playerPositionModelList = new ArrayList<PlayerPositionModel>();
-        for (TeamPlayer teamPlayer : teamPlayers) {
-            PlayerPositionModel playerPositionModel = new PlayerPositionModel();
-            playerPositionModel.setName(teamPlayer.getPlayer().getName());
-            playerPositionModel.setDateOfBirth(teamPlayer.getPlayer().getDateOfBirth());
-            Map<String, Integer> positionMap = new HashMap<String, Integer>();
-            List<TeamPlayerPosition> teamPlayerPositions = teamPlayer.getTeamPlayerPositions();
-            for (TeamPlayerPosition tpp : teamPlayerPositions) {
-                positionMap.put(tpp.getPosition(), tpp.getNumGames());
-            }
-            playerPositionModel.setPositionMap(positionMap);
-            playerPositionModelList.add(playerPositionModel);
-        }
-        return playerPositionModelList;
-
-    }
 
     private Map<String, String> createPlayerValueMap(XSSFRow row, Map<Integer, String> headerRowMap) {
         Map<String, String> playerValueMap = new HashMap<String, String>();
@@ -195,31 +157,5 @@ public class RosterUploadController {
         return value;
     }
 
-    @RequestMapping(value = "/roster/uploadold", method = RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam("file") MultipartFile file) {
-        System.out.println("/roster/upload post");
-        String name = "unknown";
-        if (file == null) {
-            System.out.println(">>>> file is null");
-        } else {
-            name = file.getOriginalFilename();
-        }
-        if (!file.isEmpty()) {
-            System.out.println("File is not empty!!!!");
-
-            System.out.println("file name: " + name);
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(new File(UPLOAD_LOCATION, name)));
-                stream.write(bytes);
-                stream.close();
-                return "You successfully uploaded " + name + "!";
-            } catch (Exception e) {
-                return "You failed to upload " + name + " => " + e.getMessage();
-            }
-        } else {
-            return "You failed to upload " + name + " because the file was empty.";
-        }
-    }
+    
 }
