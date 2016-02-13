@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import online.bbstats.repository.domain.Player;
 import online.bbstats.repository.domain.Position;

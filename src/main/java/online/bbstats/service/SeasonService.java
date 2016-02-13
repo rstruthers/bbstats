@@ -1,5 +1,7 @@
 package online.bbstats.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class SeasonService {
 
 	public Season findSeasonByName(String name) {
 		return seasonRepository.findByName(name);
+	}
+	
+	public List<Season> findAllSeasons() {
+	    return seasonRepository.findAll();
 	}
 
 }

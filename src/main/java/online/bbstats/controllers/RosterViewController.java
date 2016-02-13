@@ -39,6 +39,7 @@ public class RosterViewController {
     
     @RequestMapping(value = "/roster/view/season/{seasonName}/team/{teamName}", method = RequestMethod.GET)
     public ModelAndView getRosterView(@PathVariable("seasonName") String seasonName, @PathVariable("teamName") String teamName) {
+        LOGGER.debug("getRosterView");
         ModelAndView mav = new ModelAndView("roster_view");
         
         Season season = seasonService.findSeasonByName(seasonName);

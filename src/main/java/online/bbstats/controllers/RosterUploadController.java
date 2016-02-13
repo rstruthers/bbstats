@@ -2,7 +2,9 @@ package online.bbstats.controllers;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -11,15 +13,18 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import online.bbstats.forms.RosterUploadForm;
+import online.bbstats.model.SeasonModel;
+import online.bbstats.model.TeamModel;
 import online.bbstats.repository.domain.Season;
 import online.bbstats.repository.domain.Team;
 import online.bbstats.service.RosterService;
@@ -42,14 +47,32 @@ public class RosterUploadController {
     @RequestMapping(value = "/roster/upload", method = RequestMethod.GET)
     public ModelAndView getRosterUploadForm() {
         LOGGER.debug("Getting roster upload form");
-        return new ModelAndView("roster_upload", "form", new RosterUploadForm());
+        ModelAndView mav = new ModelAndView("roster_upload");
+        mav.addObject("form", new RosterUploadForm());
+        List<Season> seasons = seasonService.findAllSeasons();
+        List<SeasonModel> seasonModelList = new ArrayList<SeasonModel>();
+        for (Season season: seasons) {
+            SeasonModel seasonModel = new SeasonModel();
+            BeanUtils.copyProperties(season, seasonModel);
+            seasonModelList.add(seasonModel);
+        }
+        List<Team> teams = teamService.getAllTeams();
+        List<TeamModel> teamModelList = new ArrayList<TeamModel>();
+        for (Team team: teams) {
+            TeamModel teamModel = new TeamModel();
+            BeanUtils.copyProperties(team, teamModel);
+            teamModelList.add(teamModel);
+        }
+        mav.addObject("seasons", seasonModelList);
+        mav.addObject("teams", teamModelList);
+        return mav;
     }
 
     @RequestMapping(value = "/roster/upload", method = RequestMethod.POST)
-    public String postRosterUploadForm(@ModelAttribute("form") RosterUploadForm form) {
+    public String postRosterUploadForm(@RequestParam(name="file") MultipartFile file, @RequestParam(name="team") String teamName,
+            @RequestParam(name="season") String seasonName) {
         LOGGER.debug("Uploading roster");
 
-        MultipartFile file = form.getFile();
         if (file == null) {
             LOGGER.debug("File is null");
             return "roster_upload";
@@ -68,8 +91,8 @@ public class RosterUploadController {
             return "roster_upload";
         }
 
-        Team team = teamService.findTeamByName("Orioles");
-        Season season = seasonService.findSeasonByName("1961");
+        Team team = teamService.findTeamByName(teamName);
+        Season season = seasonService.findSeasonByName(seasonName);
 
         XSSFWorkbook workbook = null;
         try {
