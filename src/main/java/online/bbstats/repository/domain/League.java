@@ -22,8 +22,11 @@ public class League {
 	@Column(name = "name")
 	private String name;
 	
+//	@OneToMany(mappedBy="league")
+//	private List<Team> teams;
+	
 	@OneToMany(mappedBy="league")
-	private List<Team> teams;
+    private List<TeamLeague> teamLeagues;
 	
 	public League() {
 		
@@ -45,15 +48,12 @@ public class League {
 		this.name = name;
 	}
 
-	public List<Team> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
-	}
-	
-	
-	
+//	public List<Team> getTeams() {
+//		return teams;
+//	}
+//
+//	public void setTeams(List<Team> teams) {
+//		this.teams = teams;
+//	}
 	
 }

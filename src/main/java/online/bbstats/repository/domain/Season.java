@@ -1,18 +1,12 @@
 package online.bbstats.repository.domain;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,11 +26,11 @@ public class Season {
 	@Column(name = "end_date")
 	private LocalDate endDate;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "season_team",
-	    joinColumns = @JoinColumn(name = "season_id", referencedColumnName = "id"),
-	    inverseJoinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"))
-	private Set<Team> teams = new HashSet<Team>();
+//	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "season_team",
+//	    joinColumns = @JoinColumn(name = "season_id", referencedColumnName = "id"),
+//	    inverseJoinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"))
+//	private Set<Team> teams = new HashSet<Team>();
 
 	public Long getId() {
 		return id;
@@ -70,11 +64,11 @@ public class Season {
 		this.endDate = endDate;
 	}
 
-	public Set<Team> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(Set<Team> teams) {
-		this.teams = teams;
-	}
+//	public Set<Team> getTeams() {
+//		return teams;
+//	}
+//
+//	public void setTeams(Set<Team> teams) {
+//		this.teams = teams;
+//	}
 }

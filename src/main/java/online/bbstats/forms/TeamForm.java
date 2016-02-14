@@ -3,7 +3,6 @@ package online.bbstats.forms;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.BeanUtils;
 
-import online.bbstats.repository.domain.League;
 import online.bbstats.repository.domain.Team;
 
 public class TeamForm {
@@ -18,7 +17,7 @@ public class TeamForm {
 	@NotEmpty
 	private String state;
 	
-	private League league;
+//	private League league;
 	
 	public TeamForm() {
 		
@@ -62,13 +61,13 @@ public class TeamForm {
 		this.id = id;
 	}
 
-	public League getLeague() {
-		return league;
-	}
-
-	public void setLeague(League league) {
-		this.league = league;
-	}
+//	public League getLeague() {
+//		return league;
+//	}
+//
+//	public void setLeague(League league) {
+//		this.league = league;
+//	}
 
 
 }

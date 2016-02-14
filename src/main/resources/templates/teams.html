@@ -26,7 +26,6 @@
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>League</th>
 					<th>City</th>
 					<th>State</th>
 				</tr>
@@ -34,7 +33,6 @@
 				<tbody>
 				<tr th:each="team : ${teams}">
 					<td th:text="${team.name}">name</td>
-					<td th:text="${team.league != null} ? ${team.league.name} : ''">league</td>
 					<td th:text="${team.city}">city</td>
 					<td th:text="${team.state}">state</td>
 				</tr>
