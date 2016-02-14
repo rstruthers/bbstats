@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,9 +22,6 @@ public class Player {
 
 	@Column(name = "name")
 	private String name;
-
-	@Enumerated(EnumType.STRING)
-	private Position position;
 	
 	@Column(name = "date_of_birth")
 	private LocalDate dateOfBirth;
@@ -48,15 +43,6 @@ public class Player {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-
-	public Position getPosition() {
-		return position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
 	}
 
 	public List<TeamPlayer> getTeamPlayers() {

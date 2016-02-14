@@ -26,14 +26,12 @@
 					<tr>
 						<th>Name</th>
 						<th>Date of Birth</th>
-						<th>Position</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="player : ${players}">
 						<td th:text="${player.name}">name</td>
 						<td th:text="${player.formattedDateOfBirth}">dob</td>
-						<td th:text="${player.position}">position</td>
 					</tr>
 				</tbody>
 			</table>
