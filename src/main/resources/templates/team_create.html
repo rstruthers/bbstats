@@ -33,16 +33,7 @@
 				</div>
 			</div>
 			
-			<div class="form-group">
-				<label for="league" class="control-label col-sm-2">League</label>
-				<div class="col-sm-10"> 
-				 	<select id="league" th:field="${form.league}" class="form-control" th:errorclass="input-error">
-		                <option value="">Select</option>
-		                <option th:each="league : ${leagues}" th:value="${league.id}"  th:text="${league.name}"></option>
-		            </select>
-					<span th:errors="*{league}" class="field-error">Error</span>
-				</div>
-			</div>
+		
 			
 			<div class="form-group">
 				<label for="city" class="control-label col-sm-2">City</label>

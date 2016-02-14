@@ -56,15 +56,15 @@ public class RosterUploadController {
             BeanUtils.copyProperties(season, seasonModel);
             seasonModelList.add(seasonModel);
         }
-        List<Team> teams = teamService.getAllTeams();
-        List<TeamModel> teamModelList = new ArrayList<TeamModel>();
-        for (Team team: teams) {
-            TeamModel teamModel = new TeamModel();
-            BeanUtils.copyProperties(team, teamModel);
-            teamModelList.add(teamModel);
-        }
+//        List<Team> teams = teamService.getAllTeams();
+//        List<TeamModel> teamModelList = new ArrayList<TeamModel>();
+//        for (Team team: teams) {
+//            TeamModel teamModel = new TeamModel();
+//            BeanUtils.copyProperties(team, teamModel);
+//            teamModelList.add(teamModel);
+//        }
         mav.addObject("seasons", seasonModelList);
-        mav.addObject("teams", teamModelList);
+       // mav.addObject("teams", teamModelList);
         return mav;
     }
 

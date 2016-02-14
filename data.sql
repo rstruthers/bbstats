@@ -12,6 +12,17 @@ VALUES
 str_to_date('4/10/1961','%m/%d/%Y'),
 str_to_date('10/1/1961','%m/%d/%Y'));
 
+INSERT INTO `bbstats`.`season`
+(`id`,
+`name`,
+`start_date`,
+`end_date`)
+VALUES
+(2,
+'1948',
+str_to_date('4/10/1948','%m/%d/%Y'),
+str_to_date('10/1/1948','%m/%d/%Y'));
+
 INSERT INTO `bbstats`.`league`
 (`id`,
 `name`)
@@ -22,21 +33,81 @@ INSERT INTO `bbstats`.`team`
 (`id`,
 `city`,
 `name`,
-`state`,
-`league_id`)
+`state`)
 VALUES
 (1,
 'Baltimore',
 'Orioles',
-'Maryland',
-1);
+'Maryland');
 
-INSERT INTO `bbstats`.`season_team`
-(`season_id`,
+INSERT INTO `bbstats`.`team`
+(`id`,
+`city`,
+`name`,
+`state`)
+VALUES
+(2,
+'Boston',
+'Red Sox',
+'Massachusetts');
+
+INSERT INTO `bbstats`.`team`
+(`id`,
+`city`,
+`name`,
+`state`)
+VALUES
+(3,
+'St. Louis',
+'Browns',
+'Missouri');
+
+INSERT INTO `bbstats`.`team_league`
+(`id`,
+`start_date`,
+`end_date`,
+`league_id`,
 `team_id`)
 VALUES
 (1,
+str_to_date('1/01/1954','%m/%d/%Y'),
+null,
+1,
 1);
+
+INSERT INTO `bbstats`.`team_league`
+(`id`,
+`start_date`,
+`end_date`,
+`league_id`,
+`team_id`)
+VALUES
+(2,
+str_to_date('1/01/1908','%m/%d/%Y'),
+null,
+1,
+2);
+
+INSERT INTO `bbstats`.`team_league`
+(`id`,
+`start_date`,
+`end_date`,
+`league_id`,
+`team_id`)
+VALUES
+(3,
+str_to_date('1/01/1902','%m/%d/%Y'),
+str_to_date('12/31/1953','%m/%d/%Y'),
+1,
+3);
+
+
+-- INSERT INTO `bbstats`.`season_team`
+-- (`season_id`,
+-- `team_id`)
+-- VALUES
+-- (1,
+-- 1);
 --
 -- INSERT INTO `bbstats`.`player`
 -- (`id`,
