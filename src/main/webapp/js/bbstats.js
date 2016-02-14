@@ -14,7 +14,7 @@ $(document).ready(function(){
 					var len = data.length;
 					for ( var i = 0; i < len; i++) {
 						html += '<option value="' + data[i].name + '">'
-								+ data[i].name + '</option>';
+							+ data[i].location + ' ' + data[i].name + '</option>';
 					}
 					html += '</option>';
 	 

@@ -3,6 +3,7 @@ package online.bbstats.model;
 public class TeamModel {
     private Long id;
     private String name;
+    private String location;
 
     public Long getId() {
         return id;
@@ -19,4 +20,13 @@ public class TeamModel {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    
 }

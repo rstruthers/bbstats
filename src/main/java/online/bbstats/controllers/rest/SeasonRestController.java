@@ -48,8 +48,7 @@ public class SeasonRestController {
        for (TeamLeague teamLeague : teamLeagues) {
            TeamModel teamModel = new TeamModel();
            teamModelList.add(teamModel);
-           teamModel.setId(teamLeague.getTeam().getId());
-           teamModel.setName(teamLeague.getTeam().getName());
+           BeanUtils.copyProperties(teamLeague.getTeam(), teamModel);
        }
        
        return teamModelList;
