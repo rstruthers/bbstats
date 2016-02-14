@@ -32,10 +32,12 @@ VALUES
 INSERT INTO `bbstats`.`team`
 (`id`,
 `city`,
+`location`,
 `name`,
 `state`)
 VALUES
 (1,
+'Baltimore',
 'Baltimore',
 'Orioles',
 'Maryland');
@@ -43,10 +45,12 @@ VALUES
 INSERT INTO `bbstats`.`team`
 (`id`,
 `city`,
+`location`,
 `name`,
 `state`)
 VALUES
 (2,
+'Boston',
 'Boston',
 'Red Sox',
 'Massachusetts');
@@ -54,10 +58,12 @@ VALUES
 INSERT INTO `bbstats`.`team`
 (`id`,
 `city`,
+`location`,
 `name`,
 `state`)
 VALUES
 (3,
+'St. Louis',
 'St. Louis',
 'Browns',
 'Missouri');
