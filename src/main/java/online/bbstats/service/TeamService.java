@@ -45,4 +45,9 @@ public class TeamService {
 	public Team findTeamByName(String name) {
 		return teamRepository.findByName(name);
 	}
+	
+	public Team findTeamByNameAndLocation(String name, String location) {
+	    return teamRepository.findByNameAndLocation(name, location);
+	}
+
 }

@@ -6,4 +6,6 @@ import online.bbstats.repository.domain.Team;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
 	Team findByName(String name);
+	
+	Team findByNameAndLocation(String name, String location);
 }

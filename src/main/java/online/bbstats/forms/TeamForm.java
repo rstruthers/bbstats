@@ -6,68 +6,67 @@ import org.springframework.beans.BeanUtils;
 import online.bbstats.repository.domain.Team;
 
 public class TeamForm {
-	private Long id;
-	
-	@NotEmpty
-	private String name;
-	
-	@NotEmpty
-	private String city;
-	
-	@NotEmpty
-	private String state;
-	
-//	private League league;
-	
-	public TeamForm() {
-		
-	}
+    private Long id;
 
-	public TeamForm(Team team) {
-		if (team != null) {
-			BeanUtils.copyProperties(team, this);
-		}
-	}
+    @NotEmpty
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    @NotEmpty
+    private String city;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @NotEmpty
+    private String state;
 
-	public String getCity() {
-		return city;
-	}
+    private String location;
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public TeamForm() {
 
-	public String getState() {
-		return state;
-	}
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public TeamForm(Team team) {
+        if (team != null) {
+            BeanUtils.copyProperties(team, this);
+        }
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-//	public League getLeague() {
-//		return league;
-//	}
-//
-//	public void setLeague(League league) {
-//		this.league = league;
-//	}
+    public String getCity() {
+        return city;
+    }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
 }

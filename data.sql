@@ -29,6 +29,12 @@ INSERT INTO `bbstats`.`league`
 VALUES
 (1,'American League');
 
+INSERT INTO `bbstats`.`league`
+(`id`,
+`name`)
+VALUES
+(2,'National League');
+
 INSERT INTO `bbstats`.`team`
 (`id`,
 `city`,

@@ -1,16 +1,10 @@
 package online.bbstats.controllers;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,10 +23,13 @@ import online.bbstats.repository.domain.Team;
 import online.bbstats.service.RosterService;
 import online.bbstats.service.SeasonService;
 import online.bbstats.service.TeamService;
+import online.bbstats.spreadsheet.SpreadsheetWrapper;
 
 @Controller
 public class RosterUploadController {
     private static final Logger LOGGER = LoggerFactory.getLogger(RosterUploadController.class);
+    
+    private static final int HEADER_ROW_INDEX = 1;
 
     @Autowired
     private RosterService rosterService;
@@ -55,15 +52,7 @@ public class RosterUploadController {
             BeanUtils.copyProperties(season, seasonModel);
             seasonModelList.add(seasonModel);
         }
-//        List<Team> teams = teamService.getAllTeams();
-//        List<TeamModel> teamModelList = new ArrayList<TeamModel>();
-//        for (Team team: teams) {
-//            TeamModel teamModel = new TeamModel();
-//            BeanUtils.copyProperties(team, teamModel);
-//            teamModelList.add(teamModel);
-//        }
         mav.addObject("seasons", seasonModelList);
-       // mav.addObject("teams", teamModelList);
         return mav;
     }
 
@@ -92,92 +81,31 @@ public class RosterUploadController {
 
         Team team = teamService.findTeamByName(teamName);
         Season season = seasonService.findSeasonByName(seasonName);
+        SpreadsheetWrapper spreadsheetWrapper = null;
 
-        XSSFWorkbook workbook = null;
         try {
-            workbook = new XSSFWorkbook(new ByteArrayInputStream(file.getBytes()));
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            Map<Integer, String> headerRowMap = createHeaderRowMap(sheet);
-
-            int rows = sheet.getPhysicalNumberOfRows();
-            for (int r = 2; r < rows; r++) {
-                XSSFRow row = sheet.getRow(r);
-                if (row == null) {
-                    continue;
-                }
-                Map<String, String> playerValueMap = createPlayerValueMap(row, headerRowMap);
+            spreadsheetWrapper = new SpreadsheetWrapper(file, HEADER_ROW_INDEX);
+            spreadsheetWrapper.open();
+            spreadsheetWrapper.readRowRecords();
+            List<Map<String, String>> playerValueMaps = spreadsheetWrapper.getRecordValueMaps();
+            for (Map<String, String> playerValueMap: playerValueMaps) {
                 rosterService.addPlayerToRoster(team, season, playerValueMap);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
             LOGGER.error("Failed to read bytes from Excel file");
             return "roster_upload";
         } finally {
-            try {
-                workbook.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (spreadsheetWrapper != null) {
+                try {
+                    spreadsheetWrapper.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
        
         return "redirect:/roster/view/season/" + season.getName() + "/team/" + team.getName();
     }
-
-
-    private Map<String, String> createPlayerValueMap(XSSFRow row, Map<Integer, String> headerRowMap) {
-        Map<String, String> playerValueMap = new HashMap<String, String>();
-        int numCells = row.getPhysicalNumberOfCells();
-        for (int c = 0; c < numCells; c++) {
-            String value = getCellValueAsString(row, c);
-            String key = headerRowMap.get(c);
-            playerValueMap.put(key, value);
-        }
-        return playerValueMap;
-    }
-
-    private Map<Integer, String> createHeaderRowMap(XSSFSheet sheet) {
-        Map<Integer, String> headerRowMap = new HashMap<Integer, String>();
-        int headerRowIndex = 1;
-        XSSFRow row = sheet.getRow(headerRowIndex);
-        if (row == null) {
-            throw new RuntimeException("No header row at row index " + headerRowIndex);
-        }
-
-        int numHeaderCells = row.getPhysicalNumberOfCells();
-        for (int c = 0; c < numHeaderCells; c++) {
-            String headerValue = getCellValueAsString(row, c);
-            if (headerValue != null) {
-                headerRowMap.put(c, headerValue);
-            }
-        }
-        return headerRowMap;
-    }
-
-    private String getCellValueAsString(XSSFRow row, int c) {
-        XSSFCell cell = row.getCell(c);
-        if (cell == null) {
-            return null;
-        }
-        String value = null;
-        switch (cell.getCellType()) {
-
-        case XSSFCell.CELL_TYPE_FORMULA:
-            value = cell.getCellFormula();
-            break;
-
-        case XSSFCell.CELL_TYPE_NUMERIC:
-            value = String.valueOf(cell.getNumericCellValue());
-            break;
-
-        case XSSFCell.CELL_TYPE_STRING:
-            value = cell.getStringCellValue();
-            break;
-
-        default:
-        }
-        return value;
-    }
-
     
 }

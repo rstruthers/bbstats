@@ -6,4 +6,6 @@ import online.bbstats.repository.domain.League;
 
 public interface LeagueRepository extends JpaRepository<League, Long> {
 
+    League findByName(String name);
+
 }
