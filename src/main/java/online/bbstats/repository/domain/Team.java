@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,6 +36,14 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<TeamLeague> teamLeagues;
+    
+    @OneToMany
+    @JoinColumn(name="visiting_team_id")
+    private List<Scoresheet> scoresheetsAsVisitingTeam;
+    
+    @OneToMany
+    @JoinColumn(name="home_team_id")
+    private List<Scoresheet> scoresheetsAsHomeTeam;
 
     public Long getId() {
         return id;

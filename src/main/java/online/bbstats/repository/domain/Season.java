@@ -1,12 +1,14 @@
 package online.bbstats.repository.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,11 +28,9 @@ public class Season {
 	@Column(name = "end_date")
 	private LocalDate endDate;
 	
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "season_team",
-//	    joinColumns = @JoinColumn(name = "season_id", referencedColumnName = "id"),
-//	    inverseJoinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"))
-//	private Set<Team> teams = new HashSet<Team>();
+	@OneToMany(mappedBy="season")
+	private List<Scoresheet> scoresheets;
+
 
 	public Long getId() {
 		return id;

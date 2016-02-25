@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head lang="en">
+<title>Create a Scoresheet</title>
+
+
+<link rel="stylesheet" type="text/css"
+	href="C:\dev-tools\github\bbstats\src\main\webapp\css\bbstats.css" />
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous" />
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+	crossorigin="anonymous" />
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+	crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+	<div class="container" layout:fragment="content">
+		<form class="form-bbstats form-horizontal" th:action="@{/scoresheet/create}" method="post" th:object="${form}">
+			<h2 class="form-bbstats-heading">Create a Scoresheet</h2>
+			<div id="errorMessage" th:if="${param.error}">
+				
+			</div>
+			
+			<div class="form-group">
+				<label for="season" class="col-sm-2 col-sm-offset-2">Season</label>
+				<div class="col-md-4"> 
+				 	<select id="season" th:field="${form.seasonName}" class="form-control" th:errorclass="input-error">
+		                <option value="">Select</option>
+		                <option th:each="season : ${seasons}" th:value="${season.name}"  th:text="${season.name}"></option>
+		            </select>
+					<span th:errors="*{seasonName}" class="field-error">Error</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="visitingTeamName" class="col-sm-2  col-sm-offset-2">Visiting Team</label>
+				<div class="col-md-4"> 
+				 	<select id="visitingTeamName" th:field="${form.visitingTeamName}" class="form-control" th:errorclass="input-error">
+		                <option value="">Select</option>
+		                <option th:each="team : ${teams}" th:value="${team.name}"  th:text="${team.locationName}"></option>
+		            </select>
+					<span th:errors="*{visitingTeamName}" class="field-error">Error</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="homeTeamName" class="col-sm-2 col-sm-offset-2">Home Team</label>
+				<div class="col-md-4"> 
+				 	<select id="homeTeamName" th:field="${form.homeTeamName}" class="form-control" th:errorclass="input-error">
+		                <option value="">Select</option>
+		                <option th:each="team : ${teams}" th:value="${team.name}"  th:text="${team.locationName}"></option>
+		            </select>
+					<span th:errors="*{homeTeamName}" class="field-error">Error</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="gameDate" class="col-sm-2  col-sm-offset-2">Game Date</label>
+				<div class="col-md-4"> 
+					<input th:field="${form.gameDate}" id="gameDate" type="text" class="form-control" th:errorclass="input-error"/>
+					<span th:errors="*{gameDate}" class="field-error"> Error</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="gameNumberForDate" class="col-sm-2  col-sm-offset-2">Game number for date</label>
+				<div class="col-md-4"> 
+				 	<select id="gameNumberForDate" th:field="${form.gameNumberForDate}" class="form-control" th:errorclass="input-error">
+		                <option th:value="1"  th:text="1"></option>
+		                <option th:value="2"  th:text="2"></option>
+		            </select>
+					<span th:errors="*{gameNumberForDate}" class="field-error">Error</span>
+				</div>
+			</div>
+			
+			
+			<div class="form-actions">
+			<button class="btn btn-primary btn-lg" style="padding-left: 20px; padding-right: 20px;" type="submit"
+				name="action">Submit</button>
+			</div>
+		</form>		
+	</div>
+
+
+</body>
+</html>

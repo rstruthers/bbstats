@@ -77,5 +77,9 @@ public class TeamModel {
             return formatter.format(endDate);
         }
     }
+    
+    public String getLocationName() {
+        return location + " " + name;
+    }
 
 }

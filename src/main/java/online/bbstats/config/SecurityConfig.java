@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/public/**", "/webjars/**", "**/images/**", "/bbstats/v1/**")
+                .antMatchers("/", "/public/**", "/webjars/**", "**/images/**", "/bbstats/v1/**", "**/salesforce/**")
                 .permitAll()
                 .antMatchers("/users/**").hasAuthority("ADMIN")
                 .anyRequest().fullyAuthenticated()

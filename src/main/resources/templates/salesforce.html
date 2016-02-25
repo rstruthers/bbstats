@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 <head lang="en">
-<title>View Teams</title>
+<title>Salesforce</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
 
@@ -19,33 +19,10 @@
 <body>
 
 	<div class="container" layout:fragment="content">
-		<h1 style="text-align: center;">Teams</h1>
-
-			<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Line-up order</th>
-					<th>Position</th>
-					<th>Name</th>
-				
-				</tr>
-				</thead>
-				<tbody>
-				<tr >
-					<td >1</td>
-					<td >C</td>
-					<td >Fred Smith</td>
-					
-				</tr>
-				<tr >
-					<td >2</td>
-					<td >SS</td>
-					<td >Ralph Brown</td>
-					
-				</tr>
-				</tbody>
-			</table>
-		</div>
+	<h1>Salesforce</h1>
+	<p th:text="${message}">message</p>
+	
+	</div>
 
 </body>
 </html>

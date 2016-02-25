@@ -45,13 +45,18 @@ public class SpreadsheetWrapper {
     }
 
     public void readRowRecords() {
-        int rows = sheet.getPhysicalNumberOfRows();
+        int lastRowNum = sheet.getLastRowNum();
+        System.out.println(">>>>> Number of rows: " + lastRowNum);
         recordValueMaps = new ArrayList<Map<String, String>>();
-        for (int r = headerRowIndex + 1; r < rows; r++) {
+        
+        for (int r = headerRowIndex + 1; r <= lastRowNum; r++) {
+            System.out.println(">>> r = " + r);
             XSSFRow row = sheet.getRow(r);
             if (row == null) {
+                System.out.println(">> row is null");
                 continue;
             }
+            System.out.println(">> row is not null");
             recordValueMaps.add(createRecordValueMap(row));
         }
     }
