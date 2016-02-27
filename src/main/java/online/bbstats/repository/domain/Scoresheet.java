@@ -1,6 +1,7 @@
 package online.bbstats.repository.domain;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -84,6 +85,20 @@ public class Scoresheet {
 
     public void setGameNumber(Integer gameNumber) {
         this.gameNumber = gameNumber;
+    }
+    
+    public String getFormattedGameDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        if (gameDate == null) {
+            return "";
+        }
+        return formatter.format(gameDate);
+    }
+    
+    public String getFindScoresheetLink() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        String dateString = formatter.format(gameDate);
+        return "/scoresheet/visitor/" + visitingTeam.getName() + "/home/" + homeTeam.getName() + "/date/" + dateString;
     }
     
 

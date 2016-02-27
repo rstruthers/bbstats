@@ -1,5 +1,9 @@
 package online.bbstats.controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +23,33 @@ public class ScoresheetController {
     @Autowired
     private ScoresheetService scoresheetService;
     
-    @RequestMapping(value = "/scoresheet/{id}", method = RequestMethod.GET)
-    public ModelAndView getScoresheet(@PathVariable("id") Long id) {
+    @RequestMapping(value = "/scoresheet/id/{id}", method = RequestMethod.GET)
+    public ModelAndView getScoresheetById(@PathVariable("id") Long id) {
         LOGGER.debug("Get scoresheet");
         ModelAndView mav = new ModelAndView("scoresheet");
         Scoresheet scoresheet = scoresheetService.findById(id);
         mav.addObject("scoresheet", scoresheet);
+        return mav;
+    }
+    
+    @RequestMapping(value = "/scoresheet/visitor/{visitingTeamName}/home/{homeTeamName}/date/{date}", method = RequestMethod.GET)
+    public ModelAndView getScoresheet(@PathVariable("visitingTeamName") String visitingTeamName,
+            @PathVariable("homeTeamName") String homeTeamName,
+            @PathVariable("date") String date) {
+        LOGGER.debug("Get scoresheet");
+        ModelAndView mav = new ModelAndView("scoresheet");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        LocalDate gameDate = LocalDate.parse(date, formatter);
+        Scoresheet scoresheet = scoresheetService.findByTeamsAndDate(visitingTeamName, homeTeamName, gameDate);
+        mav.addObject("scoresheet", scoresheet);
+        return mav;
+    }
+    
+    @RequestMapping(value = "/scoresheet/find", method = RequestMethod.GET)
+    public ModelAndView getFindScoresheetPage() {
+        ModelAndView mav = new ModelAndView("scoresheet_find");
+        List<Scoresheet> scoresheets = scoresheetService.findAll();
+        mav.addObject("scoresheets", scoresheets);
         return mav;
     }
 }
