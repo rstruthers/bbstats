@@ -21,4 +21,10 @@ public interface TeamLeagueRepository extends JpaRepository<TeamLeague, Long> {
             + "and :date >= tl.startDate "
             + "and (tl.endDate is null or :date <= tl.endDate) order by tl.team.location, tl.team.name asc")
     TeamLeague findByTeamIdLeagueIdAndActiveAtDate(@Param("teamId") Long teamId, @Param("leagueId") Long leagueId, @Param("date") LocalDate date);
+
+    @Query("select tl from TeamLeague tl "
+            + "where :teamName = tl.team.name "
+            + "and :date >= tl.startDate "
+            + "and (tl.endDate is null or :date <= tl.endDate) order by tl.team.location, tl.team.name asc")
+    TeamLeague findByTeamNameAndActiveAtDate(@Param("teamName") String teamName, @Param("date") LocalDate date);
 }

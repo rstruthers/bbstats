@@ -54,5 +54,6 @@ public class PlayerService {
 	public Player findPlayerByNameAndDateOfBirth(String name, LocalDate dateOfBirth) {
 		return playerRepository.findByNameAndDateOfBirth(name, dateOfBirth);
 	}
+
 	
 }

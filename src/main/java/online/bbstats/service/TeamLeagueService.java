@@ -37,4 +37,8 @@ public class TeamLeagueService {
     public List<TeamLeague> findAll() {
         return teamLeagueRepository.findAll();
     }
+    
+    public TeamLeague findByTeamNameAndActiveAtDate(String teamName, LocalDate date) {
+        return teamLeagueRepository.findByTeamNameAndActiveAtDate(teamName, date);
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import online.bbstats.forms.ScoresheetForm;
 import online.bbstats.repository.domain.Scoresheet;
 import online.bbstats.service.ScoresheetService;
 
@@ -29,6 +30,9 @@ public class ScoresheetController {
         ModelAndView mav = new ModelAndView("scoresheet");
         Scoresheet scoresheet = scoresheetService.findById(id);
         mav.addObject("scoresheet", scoresheet);
+        ScoresheetForm form = new ScoresheetForm();
+        form.setId(scoresheet.getId());
+        mav.addObject("form", form);
         return mav;
     }
     
@@ -42,6 +46,9 @@ public class ScoresheetController {
         LocalDate gameDate = LocalDate.parse(date, formatter);
         Scoresheet scoresheet = scoresheetService.findByTeamsAndDate(visitingTeamName, homeTeamName, gameDate);
         mav.addObject("scoresheet", scoresheet);
+        ScoresheetForm form = new ScoresheetForm();
+        form.setId(scoresheet.getId());
+        mav.addObject("form", form);
         return mav;
     }
     

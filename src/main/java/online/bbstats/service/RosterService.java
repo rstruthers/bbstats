@@ -2,6 +2,7 @@ package online.bbstats.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import online.bbstats.repository.TeamPlayerRepository;
 import online.bbstats.repository.domain.Player;
 import online.bbstats.repository.domain.Season;
 import online.bbstats.repository.domain.Team;
+import online.bbstats.repository.domain.TeamLeague;
 import online.bbstats.repository.domain.TeamPlayer;
 import online.bbstats.repository.domain.TeamPlayerPosition;
 
@@ -29,6 +31,9 @@ public class RosterService {
 	
 	@Autowired
 	private TeamPlayerPositionRepository teamPlayerPositionRepository;
+	
+	@Autowired
+	private TeamLeagueService teamLeagueService;
 	
 	private static final DateTimeFormatter DATE_OF_BIRTH_FORMATTER =
             DateTimeFormatter.ofPattern("MMM d yyyy");
@@ -117,4 +122,14 @@ public class RosterService {
 	public List<TeamPlayer> findTeamPlayersByTeamAndSeason(Team team, Season season) {
 		return teamPlayerRepository.findByTeamIdActiveAtDate(team.getId(), season.getStartDate());
 	}
+	
+	public List<TeamPlayer> findTeamPlayersByTeamNameActiveAtDate(String teamName, LocalDate date) {
+	    List<TeamPlayer> teamPlayers = new ArrayList<TeamPlayer>();
+	    TeamLeague teamLeague = teamLeagueService.findByTeamNameAndActiveAtDate(teamName, date);
+	    if (teamLeague == null) {
+	        return teamPlayers;
+	    }
+	    return teamPlayerRepository.findByTeamIdActiveAtDate(teamLeague.getTeam().getId(), date);
+	}
+	
 }

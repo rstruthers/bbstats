@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/default">
 <head lang="en">
-<title>View Teams</title>
+<title>Scoresheet</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
 
@@ -18,36 +18,31 @@
 </head>
 <body>
 
-	<div class="container" layout:fragment="content">
-	<h1>Scoresheet</h1>
-	<h2 th:text="${scoresheet.visitingTeam.name}">Visiting team</h2>
-	<h2 th:text="${scoresheet.homeTeam.name}">Home team</h2>
-
-			<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Line-up order</th>
-					<th>Position</th>
-					<th>Name</th>
-				
-				</tr>
-				</thead>
-				<tbody>
-				<tr >
-					<td >1</td>
-					<td >C</td>
-					<td >Fred Smith</td>
-					
-				</tr>
-				<tr >
-					<td >2</td>
-					<td >SS</td>
-					<td >Ralph Brown</td>
-					
-				</tr>
-				</tbody>
-			</table>
-		</div>
+<div class="container" layout:fragment="content">
+	<p><b>Teams:</b>
+	<span th:text="${scoresheet.visitingTeam.location}">Location</span> <span th:text="${scoresheet.visitingTeam.name}">Name</span> at
+	<span th:text="${scoresheet.homeTeam.location}">Location</span> <span th:text="${scoresheet.homeTeam.name}">Name</span>
+	</p>
+	<p><b>Date:</b> <span th:text="${scoresheet.formattedGameDate}">Date</span></p>
+	<p><b>Visitors</b></p>
+	<form th:action="@{/scoresheet}" method="post" th:object="${form}">
+		<input th:field="${form.id}" id="id" type="hidden" class="form-control"/>
+		<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Line-up order</th>
+				<th>Name</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr >
+				<td>1</td>
+				<td>Player Name</td>
+			</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
 
 </body>
 </html>

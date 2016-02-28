@@ -2,6 +2,7 @@ package online.bbstats.repository.domain;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +40,10 @@ public class Scoresheet {
     
     @Column(name = "game_number")
     private Integer gameNumber;
+    
+    @OneToMany
+    @JoinColumn(name="v_scoresheet_player_id")
+    private List<ScoresheetPlayer> playersOnVisitingTeam;
 
     public Long getId() {
         return id;
@@ -99,6 +105,14 @@ public class Scoresheet {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String dateString = formatter.format(gameDate);
         return "/scoresheet/visitor/" + visitingTeam.getName() + "/home/" + homeTeam.getName() + "/date/" + dateString;
+    }
+
+    public List<ScoresheetPlayer> getPlayersOnVisitingTeam() {
+        return playersOnVisitingTeam;
+    }
+
+    public void setPlayersOnVisitingTeam(List<ScoresheetPlayer> playersOnVisitingTeam) {
+        this.playersOnVisitingTeam = playersOnVisitingTeam;
     }
     
 
