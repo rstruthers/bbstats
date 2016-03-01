@@ -82,7 +82,7 @@ public class ScoresheetCreateController {
         
         Scoresheet scoresheet = scoresheetService.create(form);
         
-        return "redirect:/scoresheet/" + scoresheet.getId();
+        return "redirect:/scoresheet/id/" + scoresheet.getId();
     }
     
     public List<TeamModel> getTeamsForSeason(String seasonName) {

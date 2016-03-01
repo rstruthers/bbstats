@@ -21,7 +21,7 @@ public class ScoresheetPlayer {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "v_scoresheet_player_id")
-    private Scoresheet scoresheet;
+    private Scoresheet visitorScoresheet;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
@@ -41,13 +41,7 @@ public class ScoresheetPlayer {
         this.id = id;
     }
 
-    public Scoresheet getScoresheet() {
-        return scoresheet;
-    }
-
-    public void setScoresheet(Scoresheet scoresheet) {
-        this.scoresheet = scoresheet;
-    }
+    
 
     public Player getPlayer() {
         return player;
@@ -72,6 +66,14 @@ public class ScoresheetPlayer {
     public void setLineupOrderIndex(Integer lineupOrderIndex) {
         this.lineupOrderIndex = lineupOrderIndex;
     }
+
+	public Scoresheet getVisitorScoresheet() {
+		return visitorScoresheet;
+	}
+
+	public void setVisitorScoresheet(Scoresheet visitorScoresheet) {
+		this.visitorScoresheet = visitorScoresheet;
+	}
 
     
 

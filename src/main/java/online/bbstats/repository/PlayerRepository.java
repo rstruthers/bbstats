@@ -9,4 +9,5 @@ import online.bbstats.repository.domain.Player;
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 	Player findByNameAndDateOfBirth(String name, LocalDate dateOfBirth);
 
+
 }

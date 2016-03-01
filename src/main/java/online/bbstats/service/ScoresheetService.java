@@ -1,6 +1,7 @@
 package online.bbstats.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,8 +12,11 @@ import org.springframework.stereotype.Service;
 
 import online.bbstats.BbstatsConstants;
 import online.bbstats.forms.ScoresheetCreateForm;
+import online.bbstats.model.ScoresheetPlayerModel;
+import online.bbstats.repository.ScoresheetPlayerRepository;
 import online.bbstats.repository.ScoresheetRepository;
 import online.bbstats.repository.domain.Scoresheet;
+import online.bbstats.repository.domain.ScoresheetPlayer;
 import online.bbstats.repository.domain.Season;
 import online.bbstats.repository.domain.Team;
 
@@ -28,6 +32,12 @@ public class ScoresheetService {
 
     @Autowired
     private TeamService teamService;
+    
+    @Autowired
+    private PlayerService playerService;
+    
+    @Autowired
+    private ScoresheetPlayerRepository scoresheetPlayerRepository;
 
     public Scoresheet create(ScoresheetCreateForm form) {
         LOGGER.debug("Creating a scoresheet");
@@ -64,4 +74,21 @@ public class ScoresheetService {
         return scoresheetRepository.findByTeamsAndDate(visitingTeamName, homeTeamName, gameDate);
     }
 
+	public void updateVisitingPlayers(Scoresheet scoresheet, List<ScoresheetPlayerModel> visitingPlayers) {
+		
+		scoresheetPlayerRepository.deleteVisitorsByScoresheetId(scoresheet.getId());
+		List<ScoresheetPlayer> scoresheetPlayers = new ArrayList<ScoresheetPlayer>();
+		for (ScoresheetPlayerModel visitingPlayer: visitingPlayers) {
+			ScoresheetPlayer scoresheetPlayer = new ScoresheetPlayer();
+			scoresheetPlayers.add(scoresheetPlayer);
+			scoresheetPlayer.setLineupOrder(visitingPlayer.getLineupOrder());
+			scoresheetPlayer.setLineupOrderIndex(visitingPlayer.getLineupOrderIndex());
+			scoresheetPlayer.setVisitorScoresheet(scoresheet);
+			if (visitingPlayer.getPlayerId() != null) {
+				scoresheetPlayer.setPlayer(playerService.getPlayerById(visitingPlayer.getPlayerId()));
+			}
+			scoresheetPlayerRepository.save(scoresheetPlayer);
+		}
+		scoresheetRepository.save(scoresheet);
+	}
 }

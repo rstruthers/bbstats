@@ -115,5 +115,21 @@ public class Scoresheet {
         this.playersOnVisitingTeam = playersOnVisitingTeam;
     }
     
+//    public ScoresheetPlayer findVisitingScoresheetPlayerByLineupOrderAndIndex(Integer lineupOrder) {
+//    	return findScoresheetPlayer(playersOnVisitingTeam, lineupOrder);
+//    }
+//    
+//    private static ScoresheetPlayer findScoresheetPlayer(List<ScoresheetPlayer> playersFromDb, Integer lineupOrder) {
+//		if (lineupOrder == null || playersFromDb == null) {
+//			return null;
+//		}
+//		for (ScoresheetPlayer playerFromDb: playersFromDb) {
+//			if (lineupOrder.equals(playerFromDb.getLineupOrder())) {
+//				return playerFromDb;
+//			}
+//		}
+//		return null;
+//	}
+    
 
 }

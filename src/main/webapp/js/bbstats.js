@@ -8,7 +8,26 @@ $(document).ready(function(){
 		$( "#signout-form" ).submit();
 	});
 	
-	$('#season').change(populateTeamDropdowns);	
+	$('#season').change(populateTeamDropdowns);
+	
+	/**
+	$( "button[id^='vp:']" ).each(function() {
+		$(this).click(function() {
+			  alert( "Handler for .click() called");
+			  var vpArray = $(this).attr('id').split(":");
+			  alert("vpArray: " + vpArray)
+			  var nextIndex = Number(vpArray[2]) + 1;
+			  var newRow = $("tr[id='" +  $(this).attr('id') + "']").clone();
+			  var newId = vpArray[0] + ":" + vpArray[1] + ":" +  nextIndex;
+			  alert(newId);
+			  $(newRow).attr('id', newId);
+			  newRow.find('button').attr('id', newId);
+			  alert("" + $(newRow).html());
+			  $("tr[id='" +  $(this).attr('id') + "']").after($(newRow));
+			  
+		});
+	});
+	**/
 	 
 	function populateTeamDropdowns() {
 		if( !$('#season').val() ) {

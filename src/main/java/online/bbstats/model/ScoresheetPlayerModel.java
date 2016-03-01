@@ -1,7 +1,7 @@
 package online.bbstats.model;
 
 public class ScoresheetPlayerModel {
-    private Long id;
+    private Long playerId;
     private String name;
     private String position;
     private Integer lineupOrder;
@@ -14,15 +14,6 @@ public class ScoresheetPlayerModel {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 
     public String getPosition() {
         return position;
@@ -47,6 +38,14 @@ public class ScoresheetPlayerModel {
     public void setLineupOrderIndex(Integer lineupOrderIndex) {
         this.lineupOrderIndex = lineupOrderIndex;
     }
+
+	public Long getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(Long playerId) {
+		this.playerId = playerId;
+	}
 
  
    
