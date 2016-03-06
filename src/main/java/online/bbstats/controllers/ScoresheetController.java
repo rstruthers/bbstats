@@ -46,9 +46,7 @@ public class ScoresheetController {
         LOGGER.debug("Get scoresheet");
         ModelAndView mav = new ModelAndView("scoresheet");
         Scoresheet scoresheet = scoresheetService.findById(id);
-        mav.addObject("scoresheet", scoresheet);
-        addScoresheetFormToModel(mav, scoresheet);
-        addPlayersOnVisitingTeamToModel(mav, scoresheet);
+        refreshModelForScoresheetPage(mav, scoresheet);
         return mav;
     }
     
@@ -61,9 +59,7 @@ public class ScoresheetController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         LocalDate gameDate = LocalDate.parse(date, formatter);
         Scoresheet scoresheet = scoresheetService.findByTeamsAndDate(visitingTeamName, homeTeamName, gameDate);
-        mav.addObject("scoresheet", scoresheet);
-        addScoresheetFormToModel(mav, scoresheet);
-        addPlayersOnVisitingTeamToModel(mav, scoresheet);
+        refreshModelForScoresheetPage(mav, scoresheet);
         return mav;
     }
     
@@ -71,84 +67,11 @@ public class ScoresheetController {
     public String updateScoresheet(Model model, @ModelAttribute("form") ScoresheetForm form,  
     		@RequestParam(value="action", required=true) String action) {
     	LOGGER.debug(">>>>>>>>>>>>> UPDATING SCORESHEET, action = " + action);
-    	
         Scoresheet scoresheet = scoresheetService.findById(form.getId());
-    	
-    	if (action.startsWith("vp:")) {
-    	    String[] vpArray = action.split(":");
-            int vpLineupOrder = Integer.parseInt(vpArray[1]);
-            int vpLineupOrderIndex = Integer.parseInt(vpArray[2]);
-    	    scoresheetService.addVisitorScoresheetPlayerInLineupOrderAfterIndex(scoresheet.getId(), vpLineupOrder, vpLineupOrderIndex);
-    	} else if (action.startsWith("delete_vp:")) {
-    		//deleteVisitingPlayerFromPositionOrderSpot(form, action);
-    	} else {
-    	    scoresheetService.updateVisitorScoresheetPlayers(scoresheet.getId(), form.getLineupOrders());
-    	}
-    	
+    	scoresheetService.updateVisitorScoresheetPlayers(scoresheet.getId(), form.getVisitorLineupOrders());
+    	scoresheetService.updateHomeScoresheetPlayers(scoresheet.getId(), form.getHomeLineupOrders());
     	return "redirect:/scoresheet/id/" + scoresheet.getId();
     }
-
-	
-/**
-    private void deleteVisitingPlayerFromPositionOrderSpot(ScoresheetForm form, String action) {
-		String[] vpArray = action.split(":");
-		int vpLineupOrder = Integer.parseInt(vpArray[1]);
-		int vpLineupOrderIndex = Integer.parseInt(vpArray[2]);
-		List<ScoresheetPlayerModel> scoresheetPlayerModelList = form.getVisitingPlayers();
-		int indexWhereButtonWasClicked = 0;
-		int numberOfPlayersInPositionOrderSpot = 0;
-		for (int i = 0; i < scoresheetPlayerModelList.size(); i++) {
-			ScoresheetPlayerModel scoresheetPlayerModel = scoresheetPlayerModelList.get(i);
-			if (vpLineupOrder == scoresheetPlayerModel.getLineupOrder()) {
-				numberOfPlayersInPositionOrderSpot++;
-			}
-			if (vpLineupOrder == scoresheetPlayerModel.getLineupOrder() &&
-					vpLineupOrderIndex == scoresheetPlayerModel.getLineupOrderIndex()) {
-				indexWhereButtonWasClicked = i;
-			}
-		}
-		if (numberOfPlayersInPositionOrderSpot == 1) {
-			return;
-		}
-		scoresheetPlayerModelList.remove(indexWhereButtonWasClicked);
-		int lineupOrderIndex = 0;
-		for (int i = 0; i < scoresheetPlayerModelList.size(); i++) {
-			ScoresheetPlayerModel scoresheetPlayerModel = scoresheetPlayerModelList.get(i);
-			if (vpLineupOrder == scoresheetPlayerModel.getLineupOrder() ) {
-				scoresheetPlayerModel.setLineupOrderIndex(lineupOrderIndex);
-				lineupOrderIndex++;
-			}
-		}
-	}
-
-	private void addVisitingPlayerToPositionOrderSpot(ScoresheetForm form, String action) {
-		String[] vpArray = action.split(":");
-		int vpLineupOrder = Integer.parseInt(vpArray[1]);
-		int vpLineupOrderIndex = Integer.parseInt(vpArray[2]);
-		List<ScoresheetPlayerModel> scoresheetPlayerModelList = form.getVisitingPlayers();
-		int indexWhereButtonWasClicked = 0;
-		for (int i = 0; i < scoresheetPlayerModelList.size(); i++) {
-			ScoresheetPlayerModel scoresheetPlayerModel = scoresheetPlayerModelList.get(i);
-			if (vpLineupOrder == scoresheetPlayerModel.getLineupOrder() &&
-					vpLineupOrderIndex == scoresheetPlayerModel.getLineupOrderIndex()) {
-				indexWhereButtonWasClicked = i;
-				break;
-			}
-		}
-		ScoresheetPlayerModel scoresheetPlayerModel = new ScoresheetPlayerModel();
-		scoresheetPlayerModel.setLineupOrder(vpLineupOrder);
-		scoresheetPlayerModel.setLineupOrderIndex(vpLineupOrderIndex + 1);
-		scoresheetPlayerModelList.add(indexWhereButtonWasClicked + 1, scoresheetPlayerModel);
-		int lineupOrderIndex = 0;
-		for (int i = 0; i < scoresheetPlayerModelList.size(); i++) {
-			scoresheetPlayerModel = scoresheetPlayerModelList.get(i);
-			if (vpLineupOrder == scoresheetPlayerModel.getLineupOrder() ) {
-				scoresheetPlayerModel.setLineupOrderIndex(lineupOrderIndex);
-				lineupOrderIndex++;
-			}
-		}
-	}
-	**/
     
     @RequestMapping(value = "/scoresheet/find", method = RequestMethod.GET)
     public ModelAndView getFindScoresheetPage() {
@@ -158,83 +81,87 @@ public class ScoresheetController {
         return mav;
     }
     
+    private void refreshModelForScoresheetPage(ModelAndView mav, Scoresheet scoresheet) {
+        mav.addObject("scoresheet", scoresheet);
+        addScoresheetFormToModel(mav, scoresheet);
+        addPlayersOnVisitingTeamToModel(mav, scoresheet);
+        addPlayersOnHomeTeamToModel(mav, scoresheet);
+    }
+    
     private void addPlayersOnVisitingTeamToModel(ModelAndView mav, Scoresheet scoresheet) {
-    	 List<PlayerModel> playerModelList = new ArrayList<PlayerModel>();
-         
-         List<TeamPlayer> teamPlayers = rosterService.findTeamPlayersByTeamNameActiveAtDate(scoresheet.getVisitingTeam().getName(), 
-        		 scoresheet.getGameDate());
-         
-         if (teamPlayers == null) {
-             return;
-         }
-         
-         for (TeamPlayer teamPlayer: teamPlayers) {
-             PlayerModel playerModel = new PlayerModel();
-             playerModelList.add(playerModel);
-             playerModel.setName(teamPlayer.getPlayer().getName());
-             playerModel.setId(teamPlayer.getPlayer().getId());
-         }
+        List<PlayerModel> playerModelList = getPlayerModelListForTeamOnGameDate(scoresheet.getVisitingTeam().getName(), 
+                scoresheet.getGameDate());
          mav.addObject("visitingPlayersDropdown", playerModelList);
 	}
+    
+    private void addPlayersOnHomeTeamToModel(ModelAndView mav, Scoresheet scoresheet) {
+        List<PlayerModel> playerModelList = getPlayerModelListForTeamOnGameDate(scoresheet.getHomeTeam().getName(), 
+                scoresheet.getGameDate());
+        mav.addObject("homePlayersDropdown", playerModelList);
+    }
+    
+    private List<PlayerModel> getPlayerModelListForTeamOnGameDate(String teamName, LocalDate gameDate) {
+        List<PlayerModel> playerModelList = new ArrayList<PlayerModel>();
+        List<TeamPlayer> teamPlayers = rosterService.findTeamPlayersByTeamNameActiveAtDate(teamName, gameDate); 
+        
+        if (teamPlayers == null) {
+            return playerModelList;
+        }
+        
+        for (TeamPlayer teamPlayer: teamPlayers) {
+            PlayerModel playerModel = new PlayerModel();
+            playerModelList.add(playerModel);
+            playerModel.setName(teamPlayer.getPlayer().getName());
+            playerModel.setId(teamPlayer.getPlayer().getId());
+        }
+        
+        return playerModelList;
+    }
     
     private void addScoresheetFormToModel(ModelAndView mav, Scoresheet scoresheet) {
 		ScoresheetForm form = new ScoresheetForm();
         form.setId(scoresheet.getId());
-        List<LineupOrderModel> lineupOrders = new ArrayList<LineupOrderModel>();
-        form.setLineupOrders(lineupOrders);
+        List<LineupOrderModel> visitorLineupOrders = new ArrayList<LineupOrderModel>();
+        form.setVisitorLineupOrders(visitorLineupOrders);
         for (int i = 1; i <= 9; i++) {
             List<ScoresheetPlayer> playersFromDb = scoresheetPlayerRepository.findVisitorsByScoresheetIdAndLineupOrder(scoresheet.getId(), i);
-            LineupOrderModel lineupOrderModel = new LineupOrderModel();
-            lineupOrders.add(lineupOrderModel);
-            lineupOrderModel.setLineupOrderPosition(i);
-            List<ScoresheetPlayerModel> scoresheetPlayerModelList = new ArrayList<ScoresheetPlayerModel>();
-            lineupOrderModel.setScoresheetPlayers(scoresheetPlayerModelList);
-           
-            if (playersFromDb == null || playersFromDb.size() == 0) {
-                ScoresheetPlayerModel scoresheetPlayerModel = new ScoresheetPlayerModel();
-                scoresheetPlayerModelList.add(scoresheetPlayerModel);
-                scoresheetPlayerModel.setLineupOrder(i);
-                ScoresheetPlayer scoresheetPlayer = new ScoresheetPlayer(scoresheet, i, 0, null);
-                scoresheetPlayerRepository.save(scoresheetPlayer);
-                continue;
-            } 
-            for (ScoresheetPlayer playerFromDb: playersFromDb) {
-                ScoresheetPlayerModel scoresheetPlayerModel = new ScoresheetPlayerModel();
-                scoresheetPlayerModelList.add(scoresheetPlayerModel);
-                scoresheetPlayerModel.setLineupOrder(i);
-                if (playerFromDb != null && playerFromDb.getPlayer() != null) {
-                    scoresheetPlayerModel.setPlayerId(playerFromDb.getPlayer().getId());
-                }
-            }
+            addDbPlayersToLineupOrderModel(scoresheet, null, visitorLineupOrders, i, playersFromDb);
         }
         
-        /**
+        List<LineupOrderModel> homeLineupOrders = new ArrayList<LineupOrderModel>();
+        form.setHomeLineupOrders(homeLineupOrders);
         for (int i = 1; i <= 9; i++) {
-        	List<ScoresheetPlayer> playersFromDb = scoresheetPlayerRepository.findVisitorsByScoresheetIdAndLineupOrder(scoresheet.getId(), i);
-        	if (playersFromDb == null || playersFromDb.size() == 0) {
-        	    ScoresheetPlayerModel scoresheetPlayerModel = new ScoresheetPlayerModel();
-                scoresheetPlayerModel.setLineupOrder(i);
-                scoresheetPlayerModel.setLineupOrderIndex(0);
-                scoresheetPlayerModelList.add(scoresheetPlayerModel);
-                ScoresheetPlayer scoresheetPlayer = new ScoresheetPlayer(scoresheet, i, 0, null);
-                scoresheetPlayerRepository.save(scoresheetPlayer);
-        	    continue;
-        	}
-        	for (ScoresheetPlayer playerFromDb: playersFromDb) {
-	        	ScoresheetPlayerModel scoresheetPlayerModel = new ScoresheetPlayerModel();
-	        	scoresheetPlayerModel.setLineupOrder(i);
-	        	scoresheetPlayerModel.setLineupOrderIndex(playerFromDb.getLineupOrderIndex());
-	        	if (playerFromDb != null && playerFromDb.getPlayer() != null) {
-	        		scoresheetPlayerModel.setPlayerId(playerFromDb.getPlayer().getId());
-	        	}
-	        	scoresheetPlayerModelList.add(scoresheetPlayerModel);
-        	}
+            List<ScoresheetPlayer> playersFromDb = scoresheetPlayerRepository.findHomePlayersByScoresheetIdAndLineupOrder(scoresheet.getId(), i);
+            addDbPlayersToLineupOrderModel(null, scoresheet, homeLineupOrders, i, playersFromDb);
         }
-        form.setVisitingPlayers(scoresheetPlayerModelList);
-        
-        **/
+ 
         mav.addObject("form", form);
 	}
-    
+
+    private void addDbPlayersToLineupOrderModel(Scoresheet visitorScoresheet, Scoresheet homeScoresheet, List<LineupOrderModel> lineupOrders,
+            int lineupOrderPosition, List<ScoresheetPlayer> playersFromDb) {
+        LineupOrderModel lineupOrderModel = new LineupOrderModel();
+        lineupOrders.add(lineupOrderModel);
+        lineupOrderModel.setLineupOrderPosition(lineupOrderPosition);
+        List<ScoresheetPlayerModel> scoresheetPlayerModelList = new ArrayList<ScoresheetPlayerModel>();
+        lineupOrderModel.setScoresheetPlayers(scoresheetPlayerModelList);
+         
+        if (playersFromDb == null || playersFromDb.size() == 0) {
+            ScoresheetPlayerModel scoresheetPlayerModel = new ScoresheetPlayerModel();
+            scoresheetPlayerModelList.add(scoresheetPlayerModel);
+            scoresheetPlayerModel.setLineupOrder(lineupOrderPosition);
+            ScoresheetPlayer scoresheetPlayer = new ScoresheetPlayer(visitorScoresheet, homeScoresheet, lineupOrderPosition, 0, null);
+            scoresheetPlayerRepository.save(scoresheetPlayer);
+            return;
+        } 
+        for (ScoresheetPlayer playerFromDb: playersFromDb) {
+            ScoresheetPlayerModel scoresheetPlayerModel = new ScoresheetPlayerModel();
+            scoresheetPlayerModelList.add(scoresheetPlayerModel);
+            scoresheetPlayerModel.setLineupOrder(lineupOrderPosition);
+            if (playerFromDb != null && playerFromDb.getPlayer() != null) {
+                scoresheetPlayerModel.setPlayerId(playerFromDb.getPlayer().getId());
+            }
+        }
+    }
    
 }

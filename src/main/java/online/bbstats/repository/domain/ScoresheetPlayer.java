@@ -24,6 +24,10 @@ public class ScoresheetPlayer {
     private Scoresheet visitorScoresheet;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "h_scoresheet_player_id")
+    private Scoresheet homeScoresheet;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "player_id")
     private Player player;
     
@@ -37,8 +41,9 @@ public class ScoresheetPlayer {
         
     }
 
-    public ScoresheetPlayer(Scoresheet visitorScoresheet, int lineupOrder, int lineupOrderIndex, Player player) {
+    public ScoresheetPlayer(Scoresheet visitorScoresheet, Scoresheet homeScoresheet, int lineupOrder, int lineupOrderIndex, Player player) {
        this.visitorScoresheet = visitorScoresheet;
+       this.homeScoresheet = homeScoresheet;
        this.lineupOrder = lineupOrder;
        this.lineupOrderIndex = lineupOrderIndex;
        this.player = player;
@@ -85,6 +90,14 @@ public class ScoresheetPlayer {
 	public void setVisitorScoresheet(Scoresheet visitorScoresheet) {
 		this.visitorScoresheet = visitorScoresheet;
 	}
+
+    public Scoresheet getHomeScoresheet() {
+        return homeScoresheet;
+    }
+
+    public void setHomeScoresheet(Scoresheet homeScoresheet) {
+        this.homeScoresheet = homeScoresheet;
+    }
 
     
 

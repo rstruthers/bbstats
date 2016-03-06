@@ -38,5 +38,23 @@ public interface ScoresheetPlayerRepository extends JpaRepository<ScoresheetPlay
 	        + "and :lineupOrder = sp.lineupOrder")
     int getNumVisitingPlayersAtLineupOrderPosition(@Param("scoresheetId") Long scoresheetId, 
             @Param("lineupOrder") Integer lineupOrder);
+
+	@Query("select sp from ScoresheetPlayer sp where :id = sp.homeScoresheet.id "
+            + "and :lineupOrder = sp.lineupOrder "
+            + "order by sp.lineupOrder, sp.lineupOrderIndex")
+    List<ScoresheetPlayer> findHomePlayersByScoresheetIdAndLineupOrder(@Param("id") Long id, 
+            @Param("lineupOrder") Integer lineupOrder);
+	
+	@Query("select sp from ScoresheetPlayer sp where :id = sp.homeScoresheet.id "
+            + "and :lineupOrder = sp.lineupOrder "
+            + "and :lineupOrderIndex = sp.lineupOrderIndex")
+    ScoresheetPlayer findHomePlayerByScoresheetIdLineupOrderAndIndex(@Param("id") Long id, 
+            @Param("lineupOrder") Integer lineupOrder,
+            @Param("lineupOrderIndex") Integer lineupOrderIndex);
+	
+	@Query("select count(sp) from ScoresheetPlayer sp where :scoresheetId = sp.homeScoresheet.id "
+            + "and :lineupOrder = sp.lineupOrder")
+    int getNumHomePlayersAtLineupOrderPosition(@Param("scoresheetId") Long scoresheetId, 
+            @Param("lineupOrder") Integer lineupOrder);
    
 }

@@ -7,8 +7,8 @@ import online.bbstats.model.LineupOrderModel;
 
 public class ScoresheetForm {
     private Long id;
-    
-    private List<LineupOrderModel> lineupOrders;
+    private List<LineupOrderModel> visitorLineupOrders;
+    private List<LineupOrderModel> homeLineupOrders;
 
     public Long getId() {
         return id;
@@ -18,14 +18,21 @@ public class ScoresheetForm {
         this.id = id;
     }
 
-    public List<LineupOrderModel> getLineupOrders() {
-        return lineupOrders;
+    public List<LineupOrderModel> getVisitorLineupOrders() {
+        return visitorLineupOrders;
     }
 
-    public void setLineupOrders(List<LineupOrderModel> lineupOrders) {
-        this.lineupOrders = lineupOrders;
+    public void setVisitorLineupOrders(List<LineupOrderModel> visitorLineupOrders) {
+        this.visitorLineupOrders = visitorLineupOrders;
     }
 
-  
+    public List<LineupOrderModel> getHomeLineupOrders() {
+        return homeLineupOrders;
+    }
 
+    public void setHomeLineupOrders(List<LineupOrderModel> homeLineupOrders) {
+        this.homeLineupOrders = homeLineupOrders;
+    }
+
+    
 }

@@ -10,13 +10,25 @@ $(document).ready(function(){
 	
 	$('#season').change(populateTeamDropdowns);
 	
-	$("button[value^='vp:']").each(function() {
+	$("button[value^='visitor:']").each(function() {
 		$(this).click(function() {
 			  addLineupOrderRow($(this));
 		});
 	});
 	
-	$("button[value^='delete_vp:']").each(function() {
+	$("button[value^='delete_visitor:']").each(function() {
+		$(this).click(function() {
+			deleteLineupOrderRow($(this));
+		});
+	});
+	
+	$("button[value^='home:']").each(function() {
+		$(this).click(function() {
+			  addLineupOrderRow($(this));
+		});
+	});
+	
+	$("button[value^='delete_home:']").each(function() {
 		$(this).click(function() {
 			deleteLineupOrderRow($(this));
 		});
@@ -29,8 +41,11 @@ $(document).ready(function(){
 		  lineupOrderIndex = Number(addButtonValueArray[2]);
 		 
 		  var newRow = button.closest('tr').clone(true, true);
-		  var newRowLineupOrderIndex = lineupOrderIndex + 1;
 		  
+		  // clear all selections in the new row
+		  newRow.find("select option").prop("selected", false);
+		  
+		  var newRowLineupOrderIndex = lineupOrderIndex + 1;
 		  updateRowIndex(newRow, whichTeam, lineupOrderPosition, lineupOrderIndex, newRowLineupOrderIndex);
 		  
 		  // Increment indexes on all following players in same line up order position
@@ -103,15 +118,15 @@ $(document).ready(function(){
 		  row.find("button[value='" + "delete_" + oldAddButtonValue + "']").val("delete_" + newAddButtonValue);
 		  
 		  // update index on player select id attribute
-		  var oldPlayerSelectId = "lineupOrders" + (lineupOrderPosition - 1) + ".scoresheetPlayers" + oldLineupOrderIndex + ".playerId";
-		  var newPlayerSelectId = "lineupOrders" + (lineupOrderPosition - 1) + ".scoresheetPlayers" + newLineupOrderIndex + ".playerId";
+		  var oldPlayerSelectId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + ".scoresheetPlayers" + oldLineupOrderIndex + ".playerId";
+		  var newPlayerSelectId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + ".scoresheetPlayers" + newLineupOrderIndex + ".playerId";
 		  row.find("select[id = '" + oldPlayerSelectId + "']").attr('id', newPlayerSelectId);
 		  
 		  // update index on player select name attribute
 		  var oldPlayerSelectName = 
-			  "lineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + oldLineupOrderIndex + "].playerId";
+			  whichTeam + "LineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + oldLineupOrderIndex + "].playerId";
 		  var newPlayerSelectName = 
-			  "lineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + newLineupOrderIndex + "].playerId";
+			  whichTeam + "LineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + newLineupOrderIndex + "].playerId";
 		  row.find("select[name = '" + oldPlayerSelectName + "']").attr('name', newPlayerSelectName);
 	}
 	 

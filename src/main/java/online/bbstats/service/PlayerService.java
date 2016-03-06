@@ -36,12 +36,10 @@ public class PlayerService {
 	}
 
 	public List<Player> getAllPlayers() {
-		LOGGER.debug("Getting all players");
 		return playerRepository.findAll();
 	}
 	
 	public Player getPlayerById(Long id) {
-		LOGGER.debug("Getting player by id: " + id);
 		return playerRepository.findOne(id);
 	}
 
