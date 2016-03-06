@@ -35,19 +35,42 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="vplayer,status : ${form.visitingPlayers}" th:for="|vplayer${status.index}|"
-			 th:id="'vp:' + *{visitingPlayers[__${status.index}__].lineupOrder} + ':' + *{visitingPlayers[__${status.index}__].lineupOrderIndex}">
+			<span th:each="vlineupOrder,status : ${form.lineupOrders}" th:for="|vlineupOrder${status.index}|"  th:remove="tag">
+			   <span th:each="vplayer,status2 : ${vlineupOrder.scoresheetPlayers}" th:for="|vplayer${status2.index}|" th:remove="tag">
+				   <tr>
+					   <td>
+					    	<span th:text="${vlineupOrder.lineupOrderPosition}">1</span>
+					    	<button type="button" name="action"
+					    	th:value="'vp:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
+					    	  Add
+					    	 </button>
+					    	<button type="button" name="action"
+					    	th:value="'delete_vp:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
+					    	  Delete
+					    	 </button>
+					   </td>
+					   <td>
+					    	<select  class="form-control" th:field="*{lineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].playerId}">
+				                <option value="">Select</option>
+				                <option th:each="vpd : ${visitingPlayersDropdown}" th:value="${vpd.id}"  th:text="${vpd.name}"></option>
+				            </select>
+				       </td>
+			       </tr>
+			   </span>
+			</span>
+		<!-- 
+			<tr th:each="vplayer,status : ${form.visitingPlayers}" th:for="|vplayer${status.index}|">
 			    <td>
 			    	<span th:text="${vplayer.lineupOrder}">1</span>
-			    	<button type="submit" name="action"
+			    	<button type="button" name="action"
 			    	th:value="'vp:' + *{visitingPlayers[__${status.index}__].lineupOrder} + ':' + *{visitingPlayers[__${status.index}__].lineupOrderIndex}">
 			    	  Add
 			    	 </button>
-			    	 <button type="submit" name="action"
+			    	 <button type="button" name="action"
 			    	th:value="'delete_vp:' + *{visitingPlayers[__${status.index}__].lineupOrder} + ':' + *{visitingPlayers[__${status.index}__].lineupOrderIndex}">
 			    	  Delete
 			    	 </button>
-			    	</td>
+			    </td>
 				<td>
 					<select  class="form-control" th:field="*{visitingPlayers[__${status.index}__].playerId}">
 		                <option value="">Select</option>
@@ -57,6 +80,7 @@
 		            <input th:field="*{visitingPlayers[__${status.index}__].lineupOrderIndex}" type="hidden" class="form-control"/>
 				</td>
 			</tr>
+		-->
 		</tbody>
 		</table>
 		<p><b>Home: </b><span th:text="${scoresheet.homeTeam.location}">Location</span> <span th:text="${scoresheet.homeTeam.name}">Name</span></p>

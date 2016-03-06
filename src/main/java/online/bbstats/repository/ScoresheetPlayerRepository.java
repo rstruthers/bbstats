@@ -29,5 +29,14 @@ public interface ScoresheetPlayerRepository extends JpaRepository<ScoresheetPlay
     @Transactional
 	@Query("delete from ScoresheetPlayer sp where :scoresheetId = sp.visitorScoresheet.id")
 	void deleteVisitorsByScoresheetId(@Param("scoresheetId") Long scoresheetId);
+	
+	@Query("select sp from ScoresheetPlayer sp where :scoresheetId = sp.visitorScoresheet.id "
+	        + "order by sp.lineupOrder, sp.lineupOrderIndex")
+	List<ScoresheetPlayer> findVisitorsByScoresheetIdOrderByPositionAndIndex(@Param("scoresheetId") Long scoresheetId);
+
+	@Query("select count(sp) from ScoresheetPlayer sp where :scoresheetId = sp.visitorScoresheet.id "
+	        + "and :lineupOrder = sp.lineupOrder")
+    int getNumVisitingPlayersAtLineupOrderPosition(@Param("scoresheetId") Long scoresheetId, 
+            @Param("lineupOrder") Integer lineupOrder);
    
 }

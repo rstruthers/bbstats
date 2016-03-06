@@ -5,7 +5,6 @@ public class ScoresheetPlayerModel {
     private String name;
     private String position;
     private Integer lineupOrder;
-    private Integer lineupOrderIndex;
 
     public String getName() {
         return name;
@@ -29,14 +28,6 @@ public class ScoresheetPlayerModel {
 
     public void setLineupOrder(Integer lineupOrder) {
         this.lineupOrder = lineupOrder;
-    }
-
-    public Integer getLineupOrderIndex() {
-        return lineupOrderIndex;
-    }
-
-    public void setLineupOrderIndex(Integer lineupOrderIndex) {
-        this.lineupOrderIndex = lineupOrderIndex;
     }
 
 	public Long getPlayerId() {

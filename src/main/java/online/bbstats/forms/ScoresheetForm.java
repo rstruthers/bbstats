@@ -2,13 +2,13 @@ package online.bbstats.forms;
 
 import java.util.List;
 
-import online.bbstats.model.ScoresheetPlayerModel;
+import online.bbstats.model.LineupOrderModel;
 
 
 public class ScoresheetForm {
     private Long id;
     
-    private List<ScoresheetPlayerModel> visitingPlayers;
+    private List<LineupOrderModel> lineupOrders;
 
     public Long getId() {
         return id;
@@ -18,12 +18,14 @@ public class ScoresheetForm {
         this.id = id;
     }
 
-    public List<ScoresheetPlayerModel> getVisitingPlayers() {
-        return visitingPlayers;
+    public List<LineupOrderModel> getLineupOrders() {
+        return lineupOrders;
     }
 
-    public void setVisitingPlayers(List<ScoresheetPlayerModel> visitingPlayers) {
-        this.visitingPlayers = visitingPlayers;
+    public void setLineupOrders(List<LineupOrderModel> lineupOrders) {
+        this.lineupOrders = lineupOrders;
     }
+
   
+
 }

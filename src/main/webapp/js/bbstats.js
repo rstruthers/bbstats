@@ -10,24 +10,110 @@ $(document).ready(function(){
 	
 	$('#season').change(populateTeamDropdowns);
 	
-	/**
-	$( "button[id^='vp:']" ).each(function() {
+	$("button[value^='vp:']").each(function() {
 		$(this).click(function() {
-			  alert( "Handler for .click() called");
-			  var vpArray = $(this).attr('id').split(":");
-			  alert("vpArray: " + vpArray)
-			  var nextIndex = Number(vpArray[2]) + 1;
-			  var newRow = $("tr[id='" +  $(this).attr('id') + "']").clone();
-			  var newId = vpArray[0] + ":" + vpArray[1] + ":" +  nextIndex;
-			  alert(newId);
-			  $(newRow).attr('id', newId);
-			  newRow.find('button').attr('id', newId);
-			  alert("" + $(newRow).html());
-			  $("tr[id='" +  $(this).attr('id') + "']").after($(newRow));
-			  
+			  addLineupOrderRow($(this));
 		});
 	});
-	**/
+	
+	$("button[value^='delete_vp:']").each(function() {
+		$(this).click(function() {
+			deleteLineupOrderRow($(this));
+		});
+	});
+	
+	function addLineupOrderRow(button) {
+		  var addButtonValueArray = button.val().split(":");
+		  whichTeam = addButtonValueArray[0];
+		  lineupOrderPosition = Number(addButtonValueArray[1]);
+		  lineupOrderIndex = Number(addButtonValueArray[2]);
+		 
+		  var newRow = button.closest('tr').clone(true, true);
+		  var newRowLineupOrderIndex = lineupOrderIndex + 1;
+		  
+		  updateRowIndex(newRow, whichTeam, lineupOrderPosition, lineupOrderIndex, newRowLineupOrderIndex);
+		  
+		  // Increment indexes on all following players in same line up order position
+		  
+		  // Calculate the add button value for the following lineup order position. We will stop when the value is equal to this on the add button.
+		  var followingLineupOrderPosition = lineupOrderPosition + 1;
+		  var followingLineupOrderAddButtonValue = whichTeam + ":" + followingLineupOrderPosition + ":0";
+		  
+		  // Set the line up order position and index for the next player in this lineup order position.
+		  var playerMoveUpLineupOrderPosition = lineupOrderPosition;
+		  var playerMoveUpLineupOrderIndex = newRowLineupOrderIndex + 1;
+		  
+		  button.closest('tr').nextAll().each(function() {
+			  // Stop when we get to a row for the following lineup order position
+			  if ($(this).find("button[value='" + followingLineupOrderAddButtonValue + "']").length != 0) {
+				  return false;
+			  }
+			  
+			  updateRowIndex($(this), whichTeam, playerMoveUpLineupOrderPosition, playerMoveUpLineupOrderIndex - 1, playerMoveUpLineupOrderIndex);
+			  playerMoveUpLineupOrderIndex = playerMoveUpLineupOrderIndex + 1;
+		  });
+		  
+		  button.closest('tr').after($(newRow));
+	}
+	
+	function deleteLineupOrderRow(button) {
+		var deleteButtonValueArray = button.val().split(":");
+		whichButtonAction = deleteButtonValueArray[0];
+		whichButtonActionArray = whichButtonAction.split("_");
+		whichTeam = whichButtonActionArray[1];
+		lineupOrderPosition = Number(deleteButtonValueArray[1]);
+		lineupOrderIndex = Number(deleteButtonValueArray[2]);
+		
+		if (button.closest('table').find("button[value^='delete_" + whichTeam + ":" + lineupOrderPosition  + ":']").length == 1) {
+			alert("You cannot delete the only player in a lineup order position");
+			return false;
+		}
+		
+		// Decrement indexes on all following players in same line up order position
+		var deleteButtonValuePrefix = "delete_" + whichTeam + ":";
+		  
+		// Calculate the delete button value for the following lineup order position. We will stop when the value is equal to this on the delete button.
+		var followingLineupOrderPosition = lineupOrderPosition + 1;
+		var followingLineupOrderDeleteButtonValue = deleteButtonValuePrefix + followingLineupOrderPosition + ":0";
+		
+		// Set the line up order position and index for the next player in this lineup order position.
+		var playerMoveDownLineupOrderPosition = lineupOrderPosition;
+		var playerMoveDownLineupOrderIndex = lineupOrderIndex;
+		
+		button.closest('tr').nextAll().each(function() {
+			  // Stop when we get to a row for the following lineup order position
+			  if ($(this).find("button[value='" + followingLineupOrderDeleteButtonValue + "']").length != 0) {
+				  return false;
+			  }
+			  
+			  updateRowIndex($(this), whichTeam, playerMoveDownLineupOrderPosition, playerMoveDownLineupOrderIndex + 1, playerMoveDownLineupOrderIndex);
+			  playerMoveDownLineupOrderIndex = playerMoveDownLineupOrderIndex + 1;
+		});
+		
+	    button.closest('tr').remove();
+	}
+	
+	function updateRowIndex(row, whichTeam, lineupOrderPosition, oldLineupOrderIndex, newLineupOrderIndex) {
+		  addButtonValuePrefix = whichTeam + ":";
+		  oldAddButtonValue = addButtonValuePrefix + lineupOrderPosition + ":" + oldLineupOrderIndex;
+		  newAddButtonValue = addButtonValuePrefix + lineupOrderPosition + ":" + newLineupOrderIndex;
+		  // update index on Add button
+		  row.find("button[value='" + oldAddButtonValue + "']").val(newAddButtonValue);
+		  // update index on Delete button 
+		  row.find("button[value='" + "delete_" + oldAddButtonValue + "']").val("delete_" + newAddButtonValue);
+		  
+		  // update index on player select id attribute
+		  var oldPlayerSelectId = "lineupOrders" + (lineupOrderPosition - 1) + ".scoresheetPlayers" + oldLineupOrderIndex + ".playerId";
+		  var newPlayerSelectId = "lineupOrders" + (lineupOrderPosition - 1) + ".scoresheetPlayers" + newLineupOrderIndex + ".playerId";
+		  row.find("select[id = '" + oldPlayerSelectId + "']").attr('id', newPlayerSelectId);
+		  
+		  // update index on player select name attribute
+		  var oldPlayerSelectName = 
+			  "lineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + oldLineupOrderIndex + "].playerId";
+		  var newPlayerSelectName = 
+			  "lineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + newLineupOrderIndex + "].playerId";
+		  row.find("select[name = '" + oldPlayerSelectName + "']").attr('name', newPlayerSelectName);
+	}
 	 
 	function populateTeamDropdowns() {
 		if( !$('#season').val() ) {
@@ -56,4 +142,11 @@ $(document).ready(function(){
 		});
 	}
 	
+	function replaceAll(str, find, replace) {
+		 return str.replace(new RegExp(find, 'g'), replace);
+	}
+	
+	function escapeRegExp(str) {
+	  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
 });

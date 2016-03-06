@@ -32,6 +32,17 @@ public class ScoresheetPlayer {
     
     @Column(name = "lineup_order_index")
     private Integer lineupOrderIndex;
+    
+    public ScoresheetPlayer() {
+        
+    }
+
+    public ScoresheetPlayer(Scoresheet visitorScoresheet, int lineupOrder, int lineupOrderIndex, Player player) {
+       this.visitorScoresheet = visitorScoresheet;
+       this.lineupOrder = lineupOrder;
+       this.lineupOrderIndex = lineupOrderIndex;
+       this.player = player;
+    }
 
     public Long getId() {
         return id;
