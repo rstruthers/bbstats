@@ -40,18 +40,19 @@
 				   <tr>
 					   <td>
 					    	<span th:text="${vlineupOrder.lineupOrderPosition}">1</span>
-					    	<button type="button" name="action"
+					    	<button type="button" class="btn btn-primary btn-sm" name="action"
 					    	th:value="'visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
 					    	  Add
 					    	</button>
-					    	<button type="button" name="action"
+					    	<button type="button" class="btn btn-primary btn-sm" name="action"
 					    	th:value="'delete_visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
 					    	  Delete
 					    	 </button>
 					   </td>
 					   <td>
-					    	<select  class="form-control" th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].playerId}">
-				                <option value="">Select</option>
+					    	<select  class="chosen-select" th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].playerId}"
+					    		data-placeholder="Choose a Player..." style="width:350px;">
+				                <option value=""></option>
 				                <option th:each="vpd : ${visitingPlayersDropdown}" th:value="${vpd.id}"  th:text="${vpd.name}"></option>
 				            </select>
 				       </td>
@@ -74,18 +75,20 @@
 				   <tr>
 					   <td>
 					    	<span th:text="${hlineupOrder.lineupOrderPosition}">1</span>
-					    	<button type="button" name="action"
+					    	<button type="button" class="btn btn-primary btn-sm" name="action"
 					    	th:value="'home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
 					    	  Add
 					    	</button>
-					    	<button type="button" name="action"
+					    	<button type="button" class="btn btn-primary btn-sm" name="action"
 					    	th:value="'delete_home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
 					    	  Delete
 					    	 </button>
 					   </td>
 					   <td>
-					    	<select  class="form-control" th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].playerId}">
-				                <option value="">Select</option>
+					    	<select  class="chosen-select" th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].playerId}"
+					    	data-placeholder="Choose a Player..." style="width:350px;">
+					    	
+				                <option value=""></option>
 				                <option th:each="hpd : ${homePlayersDropdown}" th:value="${hpd.id}"  th:text="${hpd.name}"></option>
 				            </select>
 				       </td>

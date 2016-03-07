@@ -34,16 +34,45 @@ $(document).ready(function(){
 		});
 	});
 	
+
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  
+	
 	function addLineupOrderRow(button) {
 		  var addButtonValueArray = button.val().split(":");
 		  whichTeam = addButtonValueArray[0];
 		  lineupOrderPosition = Number(addButtonValueArray[1]);
 		  lineupOrderIndex = Number(addButtonValueArray[2]);
-		 
+		  
 		  var newRow = button.closest('tr').clone(true, true);
 		  
-		  // clear all selections in the new row
-		  newRow.find("select option").prop("selected", false);
+		  // Remove chosen select in cloned new row
+		  var newRowSecondTd = newRow.find('td:nth-child(2)');
+		  newRowSecondTd.empty();
+		  newRowSecondTd.prepend($('<select data-placeholder="Choose a Player..." style="width:350px;"></select>'));
+		  
+		  // Copy id and name attributes from the original select to the new select
+		  selectedRowSelect = button.closest('tr').find('td:nth-child(2)').find('select');
+		  var newSelect = newRowSecondTd.find("select");
+		  newSelect.attr('id', selectedRowSelect.attr('id'));
+		  newSelect.attr('name', selectedRowSelect.attr('name'));
+		  
+		  // Copy the select options from the original select to the new select
+		  selectedRowSelect.find("option").each(function() {
+			    newSelect.append($(this).clone());
+		  });
+		  
+		  // Clear any selected options in the new select.
+		  newSelect.find("option").prop("selected", false);
 		  
 		  var newRowLineupOrderIndex = lineupOrderIndex + 1;
 		  updateRowIndex(newRow, whichTeam, lineupOrderPosition, lineupOrderIndex, newRowLineupOrderIndex);
@@ -69,6 +98,10 @@ $(document).ready(function(){
 		  });
 		  
 		  button.closest('tr').after($(newRow));
+		  newRow.find('select').each(function(){
+			  $(this).addClass('chosen-select');
+			  $(this).chosen({});
+			});
 	}
 	
 	function deleteLineupOrderRow(button) {
@@ -128,6 +161,11 @@ $(document).ready(function(){
 		  var newPlayerSelectName = 
 			  whichTeam + "LineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + newLineupOrderIndex + "].playerId";
 		  row.find("select[name = '" + oldPlayerSelectName + "']").attr('name', newPlayerSelectName);
+		  
+		  // update index on chosen div
+		  var oldPlayerChosenId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + "_scoresheetPlayers" + oldLineupOrderIndex + "_playerId_chosen";
+		  var newPlayerChosenId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + "_scoresheetPlayers" + newLineupOrderIndex + "_playerId_chosen";
+		  row.find("div[id = '" + oldPlayerChosenId + "']").attr('id', newPlayerChosenId);
 	}
 	 
 	function populateTeamDropdowns() {
