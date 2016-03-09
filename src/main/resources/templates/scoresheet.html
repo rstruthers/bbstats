@@ -32,6 +32,16 @@
 			<tr>
 				<th>Lineup order</th>
 				<th>Name</th>
+				<th>AB</th>
+				<th>R</th>
+				<th>H</th>
+				<th>RBI</th>
+				<th>2B</th>
+				<th>3B</th>
+				<th>HR</th>
+				<th>SB</th>
+				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -40,21 +50,57 @@
 				   <tr>
 					   <td>
 					    	<span th:text="${vlineupOrder.lineupOrderPosition}">1</span>
-					    	<button type="button" class="btn btn-primary btn-sm" name="action"
-					    	th:value="'visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
-					    	  Add
-					    	</button>
-					    	<button type="button" class="btn btn-primary btn-sm" name="action"
-					    	th:value="'delete_visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
-					    	  Delete
-					    	 </button>
 					   </td>
 					   <td>
 					    	<select  class="chosen-select" th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].playerId}"
-					    		data-placeholder="Choose a Player..." style="width:350px;">
+					    		data-placeholder="Choose a Player..." style="width:250px;">
 				                <option value=""></option>
 				                <option th:each="vpd : ${visitingPlayersDropdown}" th:value="${vpd.id}"  th:text="${vpd.name}"></option>
 				            </select>
+				       </td>
+				       <td>
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].atBats}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].runs}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].hits}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].rbi}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].doubles}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				        <td>
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].triples}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				        <td>
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].homeruns}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				        <td>
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].stolenBases}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       <button type="button" class="btn btn-sm" name="action"
+					    	th:value="'visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
+					    	  Add
+					    	</button>
+				       </td>
+				       <td>
+				       <button type="button" class="btn btn-sm" name="action"
+					    	th:value="'delete_visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
+					    	  Delete
+					    	 </button>
 				       </td>
 			       </tr>
 			   </span>
@@ -67,6 +113,16 @@
 			<tr>
 				<th>Lineup order</th>
 				<th>Name</th>
+				<th>AB</th>
+				<th>R</th>
+				<th>H</th>
+				<th>RBI</th>
+				<th>2B</th>
+				<th>3B</th>
+				<th>HR</th>
+				<th>SB</th>
+				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -75,22 +131,58 @@
 				   <tr>
 					   <td>
 					    	<span th:text="${hlineupOrder.lineupOrderPosition}">1</span>
-					    	<button type="button" class="btn btn-primary btn-sm" name="action"
-					    	th:value="'home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
-					    	  Add
-					    	</button>
-					    	<button type="button" class="btn btn-primary btn-sm" name="action"
-					    	th:value="'delete_home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
-					    	  Delete
-					    	 </button>
 					   </td>
 					   <td>
 					    	<select  class="chosen-select" th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].playerId}"
-					    	data-placeholder="Choose a Player..." style="width:350px;">
+					    	data-placeholder="Choose a Player..." style="width:250px;">
 					    	
 				                <option value=""></option>
 				                <option th:each="hpd : ${homePlayersDropdown}" th:value="${hpd.id}"  th:text="${hpd.name}"></option>
 				            </select>
+				       </td>
+				       <td>
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].atBats}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].runs}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].hits}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].rbi}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].doubles}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].triples}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].homeruns}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].stolenBases}" 
+				       			 type="text" class="form-control" th:errorclass="input-error"/>
+				       </td>
+				       <td>
+				       <button type="button" class="btn btn-sm" name="action"
+					    	th:value="'home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
+					    	  Add
+					    	</button>
+				       </td>
+				       <td>
+				       <button type="button" class="btn btn-sm" name="action"
+					    	th:value="'delete_home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
+					    	  Delete
+					    	 </button>
 				       </td>
 			       </tr>
 			   </span>

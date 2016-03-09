@@ -15,7 +15,8 @@ import online.bbstats.repository.domain.Player;
 
 @Service
 public class PlayerService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerService.class);
+	@SuppressWarnings("unused")
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerService.class);
 	
 	@Autowired
 	PlayerRepository playerRepository;

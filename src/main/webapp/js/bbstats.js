@@ -58,7 +58,7 @@ $(document).ready(function(){
 		  // Remove chosen select in cloned new row
 		  var newRowSecondTd = newRow.find('td:nth-child(2)');
 		  newRowSecondTd.empty();
-		  newRowSecondTd.prepend($('<select data-placeholder="Choose a Player..." style="width:350px;"></select>'));
+		  newRowSecondTd.prepend($('<select data-placeholder="Choose a Player..." style="width:250px;"></select>'));
 		  
 		  // Copy id and name attributes from the original select to the new select
 		  selectedRowSelect = button.closest('tr').find('td:nth-child(2)').find('select');
@@ -73,6 +73,8 @@ $(document).ready(function(){
 		  
 		  // Clear any selected options in the new select.
 		  newSelect.find("option").prop("selected", false);
+		  // Clear all input fields in the new row.
+		  newRow.find("input").val("");
 		  
 		  var newRowLineupOrderIndex = lineupOrderIndex + 1;
 		  updateRowIndex(newRow, whichTeam, lineupOrderPosition, lineupOrderIndex, newRowLineupOrderIndex);
@@ -166,6 +168,27 @@ $(document).ready(function(){
 		  var oldPlayerChosenId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + "_scoresheetPlayers" + oldLineupOrderIndex + "_playerId_chosen";
 		  var newPlayerChosenId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + "_scoresheetPlayers" + newLineupOrderIndex + "_playerId_chosen";
 		  row.find("div[id = '" + oldPlayerChosenId + "']").attr('id', newPlayerChosenId);
+		  
+		  var fieldNames = ["atBats", "runs", "hits", "rbi", "doubles", "triples", "homeruns", "stolenBases"];
+		  var i;
+		  var fieldName;
+		  var len = fieldNames.length;
+		  
+		  for (i = 0; i < len; i++) {
+			  fieldName = fieldNames[i];
+			  
+			  // update index on field id attribute
+			  var oldInputId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + ".scoresheetPlayers" + oldLineupOrderIndex + "." + fieldName;
+			  var newInputId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + ".scoresheetPlayers" + newLineupOrderIndex + "." + fieldName;
+			  row.find("input[id = '" + oldInputId + "']").attr('id', newInputId);
+			  
+			  // update index on at field name attribute
+			  var oldInputName = 
+				  whichTeam + "LineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + oldLineupOrderIndex + "]." + fieldName;
+			  var newInputName = 
+				  whichTeam + "LineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + newLineupOrderIndex + "]." + fieldName;
+			  row.find("input[name = '" + oldInputName + "']").attr('name', newInputName);
+		  }
 	}
 	 
 	function populateTeamDropdowns() {

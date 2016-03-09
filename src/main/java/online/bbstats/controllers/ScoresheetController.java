@@ -160,6 +160,14 @@ public class ScoresheetController {
             scoresheetPlayerModel.setLineupOrder(lineupOrderPosition);
             if (playerFromDb != null && playerFromDb.getPlayer() != null) {
                 scoresheetPlayerModel.setPlayerId(playerFromDb.getPlayer().getId());
+                scoresheetPlayerModel.setAtBats(playerFromDb.getAtBats());
+                scoresheetPlayerModel.setRuns(playerFromDb.getRuns());
+                scoresheetPlayerModel.setHits(playerFromDb.getHits());
+                scoresheetPlayerModel.setRbi(playerFromDb.getRbi());
+                scoresheetPlayerModel.setDoubles(playerFromDb.getDoubles());
+                scoresheetPlayerModel.setTriples(playerFromDb.getTriples());
+                scoresheetPlayerModel.setHomeruns(playerFromDb.getHomeruns());
+                scoresheetPlayerModel.setStolenBases(playerFromDb.getStolenBases());
             }
         }
     }

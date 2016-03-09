@@ -136,6 +136,16 @@ public class ScoresheetService {
             scoresheetPlayer.setLineupOrderIndex(lineupOrderIndex);
             scoresheetPlayer.setPlayer(player);
         }
+        if (scoresheetPlayerModel != null) {
+            scoresheetPlayer.setAtBats(scoresheetPlayerModel.getAtBats());
+            scoresheetPlayer.setRuns(scoresheetPlayerModel.getRuns());
+            scoresheetPlayer.setHits(scoresheetPlayerModel.getHits());
+            scoresheetPlayer.setRbi(scoresheetPlayerModel.getRbi());
+            scoresheetPlayer.setDoubles(scoresheetPlayerModel.getDoubles());
+            scoresheetPlayer.setTriples(scoresheetPlayerModel.getTriples());
+            scoresheetPlayer.setHomeruns(scoresheetPlayerModel.getHomeruns());
+            scoresheetPlayer.setStolenBases(scoresheetPlayerModel.getStolenBases());
+        }
         scoresheetPlayerRepository.save(scoresheetPlayer);
     }
 }

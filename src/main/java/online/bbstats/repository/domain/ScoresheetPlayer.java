@@ -37,6 +37,30 @@ public class ScoresheetPlayer {
     @Column(name = "lineup_order_index")
     private Integer lineupOrderIndex;
     
+    @Column(name = "at_bats")
+    private Integer atBats;
+    
+    @Column(name = "runs")
+    private Integer runs;
+    
+    @Column(name = "hits")
+    private Integer hits;
+    
+    @Column(name = "rbi")
+    private Integer rbi;
+    
+    @Column(name = "doubles")
+    private Integer doubles;
+    
+    @Column(name = "triples")
+    private Integer triples;
+    
+    @Column(name = "homeruns")
+    private Integer homeruns;
+    
+    @Column(name = "stolen_bases")
+    private Integer stolenBases;
+    
     public ScoresheetPlayer() {
         
     }
@@ -99,6 +123,68 @@ public class ScoresheetPlayer {
         this.homeScoresheet = homeScoresheet;
     }
 
-    
+    public Integer getDoubles() {
+        return doubles;
+    }
+
+    public void setDoubles(Integer doubles) {
+        this.doubles = doubles;
+    }
+
+    public Integer getTriples() {
+        return triples;
+    }
+
+    public void setTriples(Integer triples) {
+        this.triples = triples;
+    }
+
+    public Integer getHomeruns() {
+        return homeruns;
+    }
+
+    public void setHomeruns(Integer homeruns) {
+        this.homeruns = homeruns;
+    }
+
+    public Integer getStolenBases() {
+        return stolenBases;
+    }
+
+    public void setStolenBases(Integer stolenBases) {
+        this.stolenBases = stolenBases;
+    }
+
+    public Integer getAtBats() {
+        return atBats;
+    }
+
+    public void setAtBats(Integer atBats) {
+        this.atBats = atBats;
+    }
+
+    public Integer getRuns() {
+        return runs;
+    }
+
+    public void setRuns(Integer runs) {
+        this.runs = runs;
+    }
+
+    public Integer getHits() {
+        return hits;
+    }
+
+    public void setHits(Integer hits) {
+        this.hits = hits;
+    }
+
+    public Integer getRbi() {
+        return rbi;
+    }
+
+    public void setRbi(Integer rbi) {
+        this.rbi = rbi;
+    }
 
 }
