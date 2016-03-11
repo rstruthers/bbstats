@@ -26,6 +26,9 @@
 * [w3schools.com Bootstrap Forms](http://www.w3schools.com/bootstrap/bootstrap_forms.asp)
 * [Bare - An unstlyed starter template for Bootstrap 3 with predefined file paths for easy development.](http://startbootstrap.com/template-overviews/bare/)
 
+## jQuery
+* [Chosen - a jQuery plugin that makes long, unwieldy select boxes much more user-friendly.](https://harvesthq.github.io/chosen/)
+
 
 
 
