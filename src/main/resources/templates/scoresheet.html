@@ -13,6 +13,7 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="C:\dev-tools\git-checkout\bbstats\src\main\webapp\css\bbstats.css"/>
+
 <style>
 
 input[type='text'] { 
@@ -32,22 +33,49 @@ table.scoresheet {
 	border: 1px solid #ddd;
 }
 
+
 table.scoresheet td, th{
-    padding: 0px;
+   	width: 52px; 
+}
+
+
+table.scoresheet th {
+	text-align: center;
+	font-weight: bold;
+	padding: 2px;
    	margin: 0px;
    	border: 1px solid #ddd;
    	width: 52px; 
    	vertical-align: middle;
 }
 
-table.scoresheet th {
-	text-align: center;
-	font-weight: bold;
+
+.scoresheet-normal-cell {
+ 	padding: 2px;
+   	margin: 0px;
+   	border: 1px solid #ddd;
+   	/**width: 52px; **/ 
+   	vertical-align: middle;
 }
 
+.scoresheet-highlighted-cell {
+ 	padding: 2px;
+   	margin: 0px;
+   	border: 2px solid blue;
+   	/**width: 52px; **/ 
+   	vertical-align: middle;
+}
 
-
-
+.scoresheet-top-lineuporder-cell {
+ 	padding: 2px;
+   	margin: 0px;
+   	border-top: 2px solid black;
+   	border-bottom: 1px solid #ddd;
+   	border-left: 1px solid #ddd;
+   	border-right: 1px solid #ddd;
+   /**	width: 52px; **/ 
+   	vertical-align: middle;
+}
 
 </style>
 </head>
@@ -62,7 +90,7 @@ table.scoresheet th {
 	<p><b>Visitor: </b><span th:text="${scoresheet.visitingTeam.location}">Location</span> <span th:text="${scoresheet.visitingTeam.name}">Name</span></p>
 	<form th:action="@{/scoresheet}" method="post" th:object="${form}">
 		<input th:field="${form.id}" type="hidden"/>
-		<table class="scoresheet">
+		<table class="scoresheet" id="navigate">
 		<thead>
 			<tr>
 				<th style="padding:5px;">Lineup order</th>
@@ -82,56 +110,65 @@ table.scoresheet th {
 		<tbody>
 			<span th:each="vlineupOrder,status : ${form.visitorLineupOrders}" th:for="|vlineupOrder${status.index}|"  th:remove="tag">
 			   <span th:each="vplayer,status2 : ${vlineupOrder.scoresheetPlayers}" th:for="|vplayer${status2.index}|" th:remove="tag">
-				   <tr>
-					   <td style="text-align: center;">
-					    	<span th:text="${vlineupOrder.lineupOrderPosition}" >1</span>
+				   <tr th:id="'visitor_row:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
+					   <td style="text-align: center;" th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+							<span th:switch="__${status2.index}__"> 
+								<span th:case="0">
+					    			<span th:text="${vlineupOrder.lineupOrderPosition}" style="display:block;"
+					    			th:id="'visitor_lineuporder:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">1</span>
+					    		</span>
+					    		<span th:case="*">
+					    			<span th:text="${vlineupOrder.lineupOrderPosition}" style="display:none;"
+					    			th:id="'visitor_lineuporder:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">1</span>
+					    		</span>
+					    	</span>
 					   </td>
-					   <td>
+					   <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 					    	<select  class="chosen-select" th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].playerId}"
 					    		data-placeholder="Choose a Player..." style="width:250px;">
 				                <option value=""></option>
 				                <option th:each="vpd : ${visitingPlayersDropdown}" th:value="${vpd.id}"  th:text="${vpd.name}"></option>
 				            </select>
 				       </td>
-				       <td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].atBats}" 
-				       			 type="text" th:errorclass="input-error"/>
+				       			 type="text" th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].runs}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].hits}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].rbi}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].doubles}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				        <td>
+				        <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].triples}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				        <td>
+				        <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].homeruns}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				        <td>
+				        <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].stolenBases}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td style="padding:5px;">
+				       <td style="padding:5px;" th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       <button type="button" class="btn btn-sm" name="action"
 					    	th:value="'visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
 					    	  Add
 					    	</button>
 				       </td>
-				       <td style="padding:5px;">
+				       <td style="padding:5px;" th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       <button type="button" class="btn btn-sm" name="action"
 					    	th:value="'delete_visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
 					    	  Delete
@@ -163,11 +200,20 @@ table.scoresheet th {
 		<tbody>
 			<span th:each="hlineupOrder,hstatus : ${form.homeLineupOrders}" th:for="|hlineupOrder${hstatus.index}|"  th:remove="tag">
 			   <span th:each="hplayer,hstatus2 : ${hlineupOrder.scoresheetPlayers}" th:for="|hplayer${hstatus2.index}|" th:remove="tag">
-				   <tr>
-					   <td style="text-align: center;">
-					    	<span th:text="${hlineupOrder.lineupOrderPosition}">1</span>
+				   <tr th:id="'home_row:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
+					   <td style="text-align: center;" th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+					    	<span th:switch="__${hstatus2.index}__"> 
+								<span th:case="0">
+					    			<span th:text="${hlineupOrder.lineupOrderPosition}" style="display:block;"
+					    			th:id="'home_lineuporder:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">1</span>
+					    		</span>
+					    		<span th:case="*">
+					    			<span th:text="${hlineupOrder.lineupOrderPosition}" style="display:none;"
+					    			th:id="'home_lineuporder:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">1</span>
+					    		</span>
+					    	</span>
 					   </td>
-					   <td>
+					   <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 					    	<select  class="chosen-select" th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].playerId}"
 					    	data-placeholder="Choose a Player..." style="width:250px;">
 					    	
@@ -175,45 +221,45 @@ table.scoresheet th {
 				                <option th:each="hpd : ${homePlayersDropdown}" th:value="${hpd.id}"  th:text="${hpd.name}"></option>
 				            </select>
 				       </td>
-				       <td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].atBats}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].runs}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].hits}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].rbi}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].doubles}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].triples}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].homeruns}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].stolenBases}" 
-				       			 type="text"  th:errorclass="input-error"/>
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				       <td style="padding:5px;">
+				       <td style="padding:5px;" th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       <button type="button" class="btn btn-sm" name="action"
 					    	th:value="'home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
 					    	  Add
 					    	</button>
 				       </td>
-				       <td style="padding:5px;">
+				       <td style="padding:5px;" th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       <button type="button" class="btn btn-sm" name="action"
 					    	th:value="'delete_home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
 					    	  Delete
@@ -230,5 +276,11 @@ table.scoresheet th {
 		</div>
 	</form>
 </div>
+
+<span  layout:fragment="script">
+
+ <script type="text/javascript" src="/js/scoresheet.js"></script>
+</span>
 </body>
+
 </html>

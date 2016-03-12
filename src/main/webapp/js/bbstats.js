@@ -32,8 +32,7 @@ $(document).ready(function(){
 		$(this).click(function() {
 			deleteLineupOrderRow($(this));
 		});
-	});
-	
+	});	
 
     var config = {
       '.chosen-select'           : {},
@@ -104,6 +103,8 @@ $(document).ready(function(){
 			  $(this).addClass('chosen-select');
 			  $(this).chosen({});
 			});
+		   updateLineupOrderPositionSpanVisibility(whichTeam, lineupOrderPosition);
+		   updateLineupOrderCellBorders(whichTeam, lineupOrderPosition);
 	}
 	
 	function deleteLineupOrderRow(button) {
@@ -141,6 +142,8 @@ $(document).ready(function(){
 		});
 		
 	    button.closest('tr').remove();
+	    updateLineupOrderPositionSpanVisibility(whichTeam, lineupOrderPosition);
+	    updateLineupOrderCellBorders(whichTeam, lineupOrderPosition);
 	}
 	
 	function updateRowIndex(row, whichTeam, lineupOrderPosition, oldLineupOrderIndex, newLineupOrderIndex) {
@@ -189,6 +192,49 @@ $(document).ready(function(){
 				  whichTeam + "LineupOrders[" + (lineupOrderPosition - 1) + "].scoresheetPlayers[" + newLineupOrderIndex + "]." + fieldName;
 			  row.find("input[name = '" + oldInputName + "']").attr('name', newInputName);
 		  }
+		  
+		  // update index on lineuporder span
+		  var oldLineupOrderSpanId = whichTeam + "_lineuporder:" + lineupOrderPosition + ":" + oldLineupOrderIndex;
+		  var newLineupOrderSpanId = whichTeam + "_lineuporder:" + lineupOrderPosition + ":" + newLineupOrderIndex;
+		  row.find("span[id = '" + oldLineupOrderSpanId + "']").attr('id', newLineupOrderSpanId);
+		  
+		  // update index on row id
+		  var newRowId = whichTeam + "_row:" + lineupOrderPosition + ":" + newLineupOrderIndex;
+		  row.attr('id', newRowId);
+	}
+	
+	function updateLineupOrderPositionSpanVisibility(whichTeam, lineupOrderPosition) {
+		matchingIdPrefix = whichTeam + "_lineuporder:" + lineupOrderPosition + ":";
+		$("span[id^='" + matchingIdPrefix + "']").each(function() {
+			idArray = $(this).attr('id').split(":");
+			lineupOrderIndex = Number(idArray[2]);
+			if (lineupOrderIndex == 0) {
+				$(this).css("display", "block");
+			} else {
+				$(this).css("display", "none");
+			}
+		});
+	}
+	
+	function updateLineupOrderCellBorders(whichTeam, lineupOrderPosition) {
+		matchingIdPrefix = whichTeam + "_row:" + lineupOrderPosition + ":";
+		console.log("updateLineupOrderCellBorders(" + whichTeam + ", " + lineupOrderPosition + ")");
+		$("tr[id^='" + matchingIdPrefix + "']").each(function() {
+			idArray = $(this).attr('id').split(":");
+			console.log("idArray: " + idArray);
+			lineupOrderIndex = Number(idArray[2]);
+			console.log("lineupOrderIndex: " + lineupOrderIndex);
+			$(this).find("td").each(function() {
+				console.log($(this).html());
+				if (lineupOrderIndex == 0) {
+					$(this).removeClass("scoresheet-normal-cell");
+					$(this).addClass("scoresheet-top-lineuporder-cell");
+				} else {
+					$(this).removeClass("scoresheet-top-lineuporder-cell");
+					$(this).addClass("scoresheet-normal-cell");
+				}
+			});                       
+		});
 	}
 	 
 	function populateTeamDropdowns() {
