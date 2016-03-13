@@ -145,6 +145,8 @@ public class ScoresheetService {
             scoresheetPlayer.setTriples(scoresheetPlayerModel.getTriples());
             scoresheetPlayer.setHomeruns(scoresheetPlayerModel.getHomeruns());
             scoresheetPlayer.setStolenBases(scoresheetPlayerModel.getStolenBases());
+            scoresheetPlayer.setErrors(scoresheetPlayerModel.getErrors());
+            scoresheetPlayer.setPassedBalls(scoresheetPlayerModel.getPassedBalls());
         }
         scoresheetPlayerRepository.save(scoresheetPlayer);
     }

@@ -141,6 +141,8 @@ function() {
 			});
 		   updateLineupOrderPositionSpanVisibility(whichTeam, lineupOrderPosition);
 		   updateLineupOrderCellBorders(whichTeam, lineupOrderPosition);
+		   // The following doesn't work.
+		   //newRow.find('td:eq(1)').first('a').focus();
 	}
 	
 	function deleteLineupOrderRow(button) {
@@ -213,7 +215,7 @@ function() {
 		  var newPlayerChosenId = whichTeam + "LineupOrders" + (lineupOrderPosition - 1) + "_scoresheetPlayers" + newLineupOrderIndex + "_playerId_chosen";
 		  row.find("div[id = '" + oldPlayerChosenId + "']").attr('id', newPlayerChosenId);
 		  
-		  var fieldNames = ["atBats", "runs", "hits", "rbi", "doubles", "triples", "homeruns", "stolenBases"];
+		  var fieldNames = ["atBats", "runs", "hits", "rbi", "doubles", "triples", "homeruns", "stolenBases", "errors", "passedBalls"];
 		  var i;
 		  var fieldName;
 		  var len = fieldNames.length;

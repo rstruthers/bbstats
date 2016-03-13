@@ -13,6 +13,8 @@ public class ScoresheetPlayerModel {
     private Integer triples;
     private Integer homeruns;
     private Integer stolenBases;
+    private Integer errors;
+    private Integer passedBalls;
 
     public String getName() {
         return name;
@@ -108,6 +110,22 @@ public class ScoresheetPlayerModel {
 
     public void setStolenBases(Integer stolenBases) {
         this.stolenBases = stolenBases;
+    }
+
+    public Integer getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Integer errors) {
+        this.errors = errors;
+    }
+
+    public Integer getPassedBalls() {
+        return passedBalls;
+    }
+
+    public void setPassedBalls(Integer passedBalls) {
+        this.passedBalls = passedBalls;
     }
 
  

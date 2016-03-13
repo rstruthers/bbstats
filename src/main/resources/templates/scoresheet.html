@@ -101,6 +101,8 @@ table.scoresheet th {
 				<th>3B</th>
 				<th>HR</th>
 				<th>SB</th>
+				<th>E</th>
+				<th>PB</th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -156,8 +158,16 @@ table.scoresheet th {
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].homeruns}" 
 				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
-				        <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].stolenBases}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].errors}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].passedBalls}" 
 				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
 				       <td style="padding:5px;" th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
@@ -191,6 +201,8 @@ table.scoresheet th {
 				<th>3B</th>
 				<th>HR</th>
 				<th>SB</th>
+				<th>E</th>
+				<th>PB</th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -249,6 +261,14 @@ table.scoresheet th {
 				       </td>
 				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
 				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].stolenBases}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].errors}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].passedBalls}" 
 				       			 type="text"  th:errorclass="input-error" class="text-input"/>
 				       </td>
 				       <td style="padding:5px;" th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">

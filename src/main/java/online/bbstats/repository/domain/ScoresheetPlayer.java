@@ -61,6 +61,12 @@ public class ScoresheetPlayer {
     @Column(name = "stolen_bases")
     private Integer stolenBases;
     
+    @Column(name = "errors")
+    private Integer errors;
+    
+    @Column(name = "passed_balls")
+    private Integer passedBalls;
+    
     public ScoresheetPlayer() {
         
     }
@@ -185,6 +191,22 @@ public class ScoresheetPlayer {
 
     public void setRbi(Integer rbi) {
         this.rbi = rbi;
+    }
+
+    public Integer getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Integer errors) {
+        this.errors = errors;
+    }
+
+    public Integer getPassedBalls() {
+        return passedBalls;
+    }
+
+    public void setPassedBalls(Integer passedBalls) {
+        this.passedBalls = passedBalls;
     }
 
 }

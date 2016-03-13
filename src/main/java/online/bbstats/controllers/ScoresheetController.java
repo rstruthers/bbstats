@@ -168,6 +168,8 @@ public class ScoresheetController {
                 scoresheetPlayerModel.setTriples(playerFromDb.getTriples());
                 scoresheetPlayerModel.setHomeruns(playerFromDb.getHomeruns());
                 scoresheetPlayerModel.setStolenBases(playerFromDb.getStolenBases());
+                scoresheetPlayerModel.setErrors(playerFromDb.getErrors());
+                scoresheetPlayerModel.setPassedBalls(playerFromDb.getPassedBalls());
             }
         }
     }
