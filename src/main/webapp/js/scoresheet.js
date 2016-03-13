@@ -156,6 +156,11 @@ function() {
 			return false;
 		}
 		
+		var r = confirm("Are you sure you want to delete this row?");
+		if (!r) {
+			return false;
+		}
+		
 		// Decrement indexes on all following players in same line up order position
 		var deleteButtonValuePrefix = "delete_" + whichTeam + ":";
 		  
