@@ -31,6 +31,9 @@ public class Player {
 	
 	@OneToMany(mappedBy="player")
     private List<ScoresheetPlayer> scoresheetPlayers;
+	
+	@OneToMany(mappedBy="player")
+    private List<ScoresheetPlayer> scoresheetPitchers;
 
 	public Long getId() {
 		return id;
@@ -78,6 +81,14 @@ public class Player {
 
     public void setScoresheetPlayers(List<ScoresheetPlayer> scoresheetPlayers) {
         this.scoresheetPlayers = scoresheetPlayers;
+    }
+
+    public List<ScoresheetPlayer> getScoresheetPitchers() {
+        return scoresheetPitchers;
+    }
+
+    public void setScoresheetPitchers(List<ScoresheetPlayer> scoresheetPitchers) {
+        this.scoresheetPitchers = scoresheetPitchers;
     }
 
 }

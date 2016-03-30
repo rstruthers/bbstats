@@ -22,7 +22,7 @@ public class TeamPlayerPosition {
 	private String position;
 	
 	@Column(name = "num_games")
-	private int numGames;
+	private Integer numGames;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_player_id")
@@ -32,7 +32,7 @@ public class TeamPlayerPosition {
 		
 	}
 	
-	public TeamPlayerPosition(TeamPlayer teamPlayer, String position, int numGames) {
+	public TeamPlayerPosition(TeamPlayer teamPlayer, String position, Integer numGames) {
 		this.teamPlayer = teamPlayer;
 		this.position = position;
 		this.numGames = numGames;
@@ -54,13 +54,6 @@ public class TeamPlayerPosition {
 		this.position = position;
 	}
 
-	public int getNumGames() {
-		return numGames;
-	}
-
-	public void setNumGames(int numGames) {
-		this.numGames = numGames;
-	}
 
 	public TeamPlayer getTeamPlayer() {
 		return teamPlayer;
@@ -69,6 +62,14 @@ public class TeamPlayerPosition {
 	public void setTeamPlayer(TeamPlayer teamPlayer) {
 		this.teamPlayer = teamPlayer;
 	}
+
+    public Integer getNumGames() {
+        return numGames;
+    }
+
+    public void setNumGames(Integer numGames) {
+        this.numGames = numGames;
+    }
 	
 	
 	

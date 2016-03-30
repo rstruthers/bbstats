@@ -3,6 +3,7 @@ package online.bbstats.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,14 @@ import org.springframework.stereotype.Service;
 import online.bbstats.BbstatsConstants;
 import online.bbstats.forms.ScoresheetCreateForm;
 import online.bbstats.model.LineupOrderModel;
+import online.bbstats.model.ScoresheetPitcherModel;
 import online.bbstats.model.ScoresheetPlayerModel;
+import online.bbstats.repository.ScoresheetPitcherRepository;
 import online.bbstats.repository.ScoresheetPlayerRepository;
 import online.bbstats.repository.ScoresheetRepository;
 import online.bbstats.repository.domain.Player;
 import online.bbstats.repository.domain.Scoresheet;
+import online.bbstats.repository.domain.ScoresheetPitcher;
 import online.bbstats.repository.domain.ScoresheetPlayer;
 import online.bbstats.repository.domain.Season;
 import online.bbstats.repository.domain.Team;
@@ -39,6 +43,9 @@ public class ScoresheetService {
     
     @Autowired
     private ScoresheetPlayerRepository scoresheetPlayerRepository;
+    
+    @Autowired
+    private ScoresheetPitcherRepository scoresheetPitcherRepository;
 
     public Scoresheet create(ScoresheetCreateForm form) {
         LOGGER.debug("Creating a scoresheet");
@@ -149,5 +156,108 @@ public class ScoresheetService {
             scoresheetPlayer.setPassedBalls(scoresheetPlayerModel.getPassedBalls());
         }
         scoresheetPlayerRepository.save(scoresheetPlayer);
+    }
+
+    public void updateVisitorScoresheetPitchers(Long scoresheetId, List<ScoresheetPitcherModel> visitorPitchers) {
+        Scoresheet visitorScoresheet = scoresheetRepository.findOne(scoresheetId);
+        
+        
+        
+        
+        int pitcherOrder = 0;
+        for (ScoresheetPitcherModel pitcherModel: visitorPitchers) {
+           pitcherOrder++;
+           System.out.println("updating or adding pitcher, pitcherOrder: " + pitcherOrder);
+           ScoresheetPitcher scoresheetPitcher = 
+                   scoresheetPitcherRepository.findVisitorPitcherByScoresheetIdAndPitcherOrder(scoresheetId, pitcherOrder);
+           updateOrAddScoresheetPitcher(visitorScoresheet, null, pitcherOrder, pitcherModel, scoresheetPitcher);
+        }
+        
+        int numDbVisitorPitchers = scoresheetPitcherRepository.getNumVisitorPitchers(scoresheetId);
+        int numModelVisitorPitchers = visitorPitchers.size();
+        for (pitcherOrder = numModelVisitorPitchers + 1; pitcherOrder <= numDbVisitorPitchers; pitcherOrder++) {
+            System.out.println("Deleting pitcher, pitcher order: " + pitcherOrder);
+            ScoresheetPitcher scoresheetPitcher = 
+                    scoresheetPitcherRepository.findVisitorPitcherByScoresheetIdAndPitcherOrder(scoresheetId, pitcherOrder);
+            scoresheetPitcherRepository.delete(scoresheetPitcher);
+        }
+        
+       
+    }
+    
+    public void updateHomeScoresheetPitchers(Long scoresheetId, List<ScoresheetPitcherModel> homePitchers) {
+        Scoresheet homeScoresheet = scoresheetRepository.findOne(scoresheetId);
+        int pitcherOrder = 0;
+        for (ScoresheetPitcherModel pitcherModel: homePitchers) {
+           pitcherOrder++;
+           ScoresheetPitcher scoresheetPitcher = 
+                   scoresheetPitcherRepository.findHomePitcherByScoresheetIdAndPitcherOrder(scoresheetId, pitcherOrder);
+           updateOrAddScoresheetPitcher(null, homeScoresheet, pitcherOrder, pitcherModel, scoresheetPitcher);
+        }
+        int numDbHomePitchers = scoresheetPitcherRepository.getNumHomePitchers(scoresheetId);
+        int numModelHomePitchers = homePitchers.size();
+        for (pitcherOrder = numModelHomePitchers + 1; pitcherOrder <= numDbHomePitchers; pitcherOrder++) {
+            ScoresheetPitcher scoresheetPitcher = 
+                    scoresheetPitcherRepository.findHomePitcherByScoresheetIdAndPitcherOrder(scoresheetId, pitcherOrder);
+            scoresheetPitcherRepository.delete(scoresheetPitcher);
+        }
+    }
+    
+    private void updateOrAddScoresheetPitcher(Scoresheet visitorScoresheet, Scoresheet homeScoresheet, int pitcherOrder,
+            ScoresheetPitcherModel pitcherModel, ScoresheetPitcher scoresheetPitcher) {
+       
+        if (scoresheetPitcher == null) {
+            scoresheetPitcher = new ScoresheetPitcher(visitorScoresheet, homeScoresheet, pitcherOrder);
+        } 
+        
+        if (pitcherModel != null) {
+            Player player = null;
+            if (pitcherModel.getPlayerId() != null) {
+                player = playerService.getPlayerById(pitcherModel.getPlayerId());
+            }
+            scoresheetPitcher.setPlayer(player);
+            setWholePlusPartialInningsPitcher(scoresheetPitcher, pitcherModel);
+            scoresheetPitcher.setHits(pitcherModel.getHits());
+            scoresheetPitcher.setRuns(pitcherModel.getRuns());
+            scoresheetPitcher.setEarnedRuns(pitcherModel.getEarnedRuns());
+            scoresheetPitcher.setWalks(pitcherModel.getWalks());
+            scoresheetPitcher.setStrikeouts(pitcherModel.getStrikeouts());
+            scoresheetPitcher.setHomeruns(pitcherModel.getHomeruns());
+            scoresheetPitcher.setBalks(pitcherModel.getBalks());
+            scoresheetPitcher.setWin(pitcherModel.getWin());
+            scoresheetPitcher.setLoss(pitcherModel.getLoss());
+            scoresheetPitcher.setSave(pitcherModel.getSave());
+        }
+        
+        scoresheetPitcherRepository.save(scoresheetPitcher);
+    }
+
+    private void setWholePlusPartialInningsPitcher(ScoresheetPitcher scoresheetPitcher,
+            ScoresheetPitcherModel pitcherModel) {
+        try {
+            String wholePlusPartialInningsPitchedString = StringUtils.trimToEmpty(pitcherModel.getWholePlusPartialInningsPitched());
+            String[] inningsPitchedArray = wholePlusPartialInningsPitchedString.split("\\.");
+            
+            String inningsPitchedString = "";
+            if (inningsPitchedArray.length > 0) {
+                inningsPitchedString = inningsPitchedArray[0];
+            }
+            String partialInningsPitchedString = "";
+            if (inningsPitchedArray.length > 1) {
+                partialInningsPitchedString = inningsPitchedArray[1];
+            }
+            scoresheetPitcher.setInningsPitched(stringToInteger(inningsPitchedString));
+            scoresheetPitcher.setPartialInningsPitched(stringToInteger(partialInningsPitchedString));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private Integer stringToInteger(String s) {
+        try {
+            return Integer.parseInt(s);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

@@ -56,5 +56,5 @@ public interface ScoresheetPlayerRepository extends JpaRepository<ScoresheetPlay
             + "and :lineupOrder = sp.lineupOrder")
     int getNumHomePlayersAtLineupOrderPosition(@Param("scoresheetId") Long scoresheetId, 
             @Param("lineupOrder") Integer lineupOrder);
-   
+
 }

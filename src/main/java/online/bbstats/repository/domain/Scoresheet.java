@@ -48,6 +48,14 @@ public class Scoresheet {
     @OneToMany
     @JoinColumn(name="h_scoresheet_player_id")
     private List<ScoresheetPlayer> playersOnHomeTeam;
+    
+    @OneToMany
+    @JoinColumn(name="v_scoresheet_player_id")
+    private List<ScoresheetPitcher> pitchersOnVisitingTeam;
+    
+    @OneToMany
+    @JoinColumn(name="h_scoresheet_player_id")
+    private List<ScoresheetPitcher> pitchersOnHomeTeam;
 
     public Long getId() {
         return id;
@@ -125,6 +133,22 @@ public class Scoresheet {
 
     public void setPlayersOnHomeTeam(List<ScoresheetPlayer> playersOnHomeTeam) {
         this.playersOnHomeTeam = playersOnHomeTeam;
+    }
+
+    public List<ScoresheetPitcher> getPitchersOnVisitingTeam() {
+        return pitchersOnVisitingTeam;
+    }
+
+    public void setPitchersOnVisitingTeam(List<ScoresheetPitcher> pitchersOnVisitingTeam) {
+        this.pitchersOnVisitingTeam = pitchersOnVisitingTeam;
+    }
+
+    public List<ScoresheetPitcher> getPitchersOnHomeTeam() {
+        return pitchersOnHomeTeam;
+    }
+
+    public void setPitchersOnHomeTeam(List<ScoresheetPitcher> pitchersOnHomeTeam) {
+        this.pitchersOnHomeTeam = pitchersOnHomeTeam;
     }
     
 //    public ScoresheetPlayer findVisitingScoresheetPlayerByLineupOrderAndIndex(Integer lineupOrder) {
