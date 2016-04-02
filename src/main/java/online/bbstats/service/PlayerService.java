@@ -1,5 +1,6 @@
 package online.bbstats.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,7 +15,8 @@ import online.bbstats.repository.domain.Player;
 
 @Service
 public class PlayerService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlayerService.class);
+	@SuppressWarnings("unused")
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerService.class);
 	
 	@Autowired
 	PlayerRepository playerRepository;
@@ -25,14 +27,20 @@ public class PlayerService {
 		playerRepository.save(player);
 		return player;
 	}
+	
+	public Player create(String name, LocalDate dateOfBirth) {
+		Player player = new Player();
+		player.setName(name);
+		player.setDateOfBirth(dateOfBirth);
+		playerRepository.save(player);
+		return player;
+	}
 
 	public List<Player> getAllPlayers() {
-		LOGGER.debug("Getting all players");
 		return playerRepository.findAll();
 	}
 	
 	public Player getPlayerById(Long id) {
-		LOGGER.debug("Getting player by id: " + id);
 		return playerRepository.findOne(id);
 	}
 
@@ -41,4 +49,10 @@ public class PlayerService {
 		BeanUtils.copyProperties(playerForm, player);
 		playerRepository.save(player);
 	}
+	
+	public Player findPlayerByNameAndDateOfBirth(String name, LocalDate dateOfBirth) {
+		return playerRepository.findByNameAndDateOfBirth(name, dateOfBirth);
+	}
+
+	
 }

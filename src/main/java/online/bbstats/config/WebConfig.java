@@ -17,8 +17,6 @@ import online.bbstats.date.USLocalDateFormatter;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
-
-
 	
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -52,5 +50,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   public SpringSecurityDialect securityDialect() {
       return new SpringSecurityDialect();
   }
+  
   
 }

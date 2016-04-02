@@ -1,15 +1,15 @@
 package online.bbstats.repository.domain;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,16 +22,18 @@ public class Player {
 
 	@Column(name = "name")
 	private String name;
-
-	@Column(name = "age")
-	private Integer age;
-
-	@Enumerated(EnumType.STRING)
-	private Position position;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team_id")
-	private Team team;
+	
+	@Column(name = "date_of_birth")
+	private LocalDate dateOfBirth;
+	
+	@OneToMany(mappedBy="player")
+	private List<TeamPlayer> teamPlayers;
+	
+	@OneToMany(mappedBy="player")
+    private List<ScoresheetPlayer> scoresheetPlayers;
+	
+	@OneToMany(mappedBy="player")
+    private List<ScoresheetPlayer> scoresheetPitchers;
 
 	public Long getId() {
 		return id;
@@ -49,28 +51,44 @@ public class Player {
 		this.name = name;
 	}
 
-	public Integer getAge() {
-		return age;
+	public List<TeamPlayer> getTeamPlayers() {
+		return teamPlayers;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setTeamPlayers(List<TeamPlayer> teamPlayers) {
+		this.teamPlayers = teamPlayers;
 	}
 
-	public Position getPosition() {
-		return position;
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
 	}
 
-	public void setPosition(Position position) {
-		this.position = position;
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	
+	public String getFormattedDateOfBirth() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		if (dateOfBirth == null) {
+			return "";
+		}
+		return formatter.format(dateOfBirth);
 	}
 
-	public Team getTeam() {
-		return team;
-	}
+    public List<ScoresheetPlayer> getScoresheetPlayers() {
+        return scoresheetPlayers;
+    }
 
-	public void setTeam(Team team) {
-		this.team = team;
-	}
+    public void setScoresheetPlayers(List<ScoresheetPlayer> scoresheetPlayers) {
+        this.scoresheetPlayers = scoresheetPlayers;
+    }
+
+    public List<ScoresheetPlayer> getScoresheetPitchers() {
+        return scoresheetPitchers;
+    }
+
+    public void setScoresheetPitchers(List<ScoresheetPlayer> scoresheetPitchers) {
+        this.scoresheetPitchers = scoresheetPitchers;
+    }
 
 }

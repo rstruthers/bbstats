@@ -25,17 +25,13 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Age</th>
-						<th>Position</th>
-						<th>Team</th>
+						<th>Date of Birth</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="player : ${players}">
 						<td th:text="${player.name}">name</td>
-						<td th:text="${player.age}">age</td>
-						<td th:text="${player.position}">position</td>
-						<td th:text="${player.team != null} ? ${player.team.name} : ''">team</td>
+						<td th:text="${player.formattedDateOfBirth}">dob</td>
 					</tr>
 				</tbody>
 			</table>

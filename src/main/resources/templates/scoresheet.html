@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head lang="en">
+<title>Scoresheet</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="C:\dev-tools\git-checkout\bbstats\src\main\webapp\css\bbstats.css"/>
+
+<style>
+
+input[type='text'] { 
+	font-size: 12px; 
+	text-align: right;
+	padding-bottom: 0px;
+	padding-top: 0px;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin: 0px;
+	width: 100%;
+	border: none;
+	height: 100%;
+}
+
+table.scoresheet {
+	border: 1px solid #ddd;
+}
+
+
+table.scoresheet td, th{
+   	width: 52px; 
+}
+
+
+table.scoresheet th {
+	text-align: center;
+	font-weight: bold;
+	padding: 2px;
+   	margin: 0px;
+   	border: 1px solid #ddd;
+   	vertical-align: middle;
+}
+
+td.scoresheet-checkbox { 
+	text-align:center; 
+	vertical-align:middle; 
+}
+
+
+.scoresheet-normal-cell {
+ 	padding: 2px;
+   	margin: 0px;
+   	border: 1px solid #ddd;
+   	/**width: 52px; **/ 
+   	vertical-align: middle;
+}
+
+.scoresheet-highlighted-cell {
+ 	padding: 2px;
+   	margin: 0px;
+   	border: 2px solid blue;
+   	/**width: 52px; **/ 
+   	vertical-align: middle;
+}
+
+.scoresheet-top-lineuporder-cell {
+ 	padding: 2px;
+   	margin: 0px;
+   	border-top: 2px solid black;
+   	border-bottom: 1px solid #ddd;
+   	border-left: 1px solid #ddd;
+   	border-right: 1px solid #ddd;
+   	vertical-align: middle;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container" layout:fragment="content">
+	<p><b>Teams:</b>
+	<span th:text="${scoresheet.visitingTeam.location}">Location</span> <span th:text="${scoresheet.visitingTeam.name}">Name</span> at
+	<span th:text="${scoresheet.homeTeam.location}">Location</span> <span th:text="${scoresheet.homeTeam.name}">Name</span>
+	</p>
+	<p><b>Date:</b> <span th:text="${scoresheet.formattedGameDate}">Date</span></p>
+	<p><b>Visitor: </b><span th:text="${scoresheet.visitingTeam.location}">Location</span> <span th:text="${scoresheet.visitingTeam.name}">Name</span></p>
+	<form th:action="@{/scoresheet}" method="post" th:object="${form}">
+		<input th:field="${form.id}" type="hidden"/>
+		<table class="scoresheet">
+		<thead>
+			<tr>
+				<th>Lineup order</th>
+				<th>Name</th>
+				<th>AB</th>
+				<th>R</th>
+				<th>H</th>
+				<th>RBI</th>
+				<th>2B</th>
+				<th>3B</th>
+				<th>HR</th>
+				<th>SB</th>
+				<th>E</th>
+				<th>PB</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<span th:each="vlineupOrder,status : ${form.visitorLineupOrders}" th:for="|vlineupOrder${status.index}|"  th:remove="tag">
+			   <span th:each="vplayer,status2 : ${vlineupOrder.scoresheetPlayers}" th:for="|vplayer${status2.index}|" th:remove="tag">
+				   <tr th:id="'visitor_row:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
+					   <td style="text-align: center;" th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+							<span th:switch="__${status2.index}__"> 
+								<span th:case="0">
+					    			<span th:text="${vlineupOrder.lineupOrderPosition}" style="display:block;"
+					    			th:id="'visitor_lineuporder:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">1</span>
+					    		</span>
+					    		<span th:case="*">
+					    			<span th:text="${vlineupOrder.lineupOrderPosition}" style="display:none;"
+					    			th:id="'visitor_lineuporder:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">1</span>
+					    		</span>
+					    	</span>
+					   </td>
+					   <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+					    	<select  class="chosen-select" th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].playerId}"
+					    		data-placeholder="Choose a Player..." style="width:250px;">
+				                <option value=""></option>
+				                <option th:each="vpd : ${visitingPlayersDropdown}" th:value="${vpd.id}"  th:text="${vpd.name}"></option>
+				            </select>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].atBats}" 
+				       			 type="text" th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].runs}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].hits}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].rbi}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].doubles}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				        <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].triples}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				        <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].homeruns}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].stolenBases}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].errors}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{visitorLineupOrders[__${status.index}__].scoresheetPlayers[__${status2.index}__].passedBalls}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td style="padding:5px;" th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       <button type="button" class="btn btn-sm" name="action"
+					    	th:value="'visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
+					    	  Add
+					    	</button>
+				       </td>
+				       <td style="padding:5px;" th:class="__${status2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       <button type="button" class="btn btn-sm" name="action"
+					    	th:value="'delete_visitor:' + ${vlineupOrder.lineupOrderPosition} + ':' +  __${status2.index}__">
+					    	  Delete
+					    	 </button>
+				       </td>
+			       </tr>
+			   </span>
+			</span>
+		</tbody>
+		</table>
+		<p><b>Home: </b><span th:text="${scoresheet.homeTeam.location}">Location</span> <span th:text="${scoresheet.homeTeam.name}">Name</span></p>
+		<table class="scoresheet">
+		<thead>
+			<tr>
+				<th>Lineup order</th>
+				<th>Name</th>
+				<th>AB</th>
+				<th>R</th>
+				<th>H</th>
+				<th>RBI</th>
+				<th>2B</th>
+				<th>3B</th>
+				<th>HR</th>
+				<th>SB</th>
+				<th>E</th>
+				<th>PB</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<span th:each="hlineupOrder,hstatus : ${form.homeLineupOrders}" th:for="|hlineupOrder${hstatus.index}|"  th:remove="tag">
+			   <span th:each="hplayer,hstatus2 : ${hlineupOrder.scoresheetPlayers}" th:for="|hplayer${hstatus2.index}|" th:remove="tag">
+				   <tr th:id="'home_row:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
+					   <td style="text-align: center;" th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+					    	<span th:switch="__${hstatus2.index}__"> 
+								<span th:case="0">
+					    			<span th:text="${hlineupOrder.lineupOrderPosition}" style="display:block;"
+					    			th:id="'home_lineuporder:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">1</span>
+					    		</span>
+					    		<span th:case="*">
+					    			<span th:text="${hlineupOrder.lineupOrderPosition}" style="display:none;"
+					    			th:id="'home_lineuporder:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">1</span>
+					    		</span>
+					    	</span>
+					   </td>
+					   <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+					    	<select  class="chosen-select" th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].playerId}"
+					    	data-placeholder="Choose a Player..." style="width:250px;">
+					    	
+				                <option value=""></option>
+				                <option th:each="hpd : ${homePlayersDropdown}" th:value="${hpd.id}"  th:text="${hpd.name}"></option>
+				            </select>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].atBats}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].runs}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].hits}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].rbi}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].doubles}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].triples}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].homeruns}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].stolenBases}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].errors}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       		<input th:field="*{homeLineupOrders[__${hstatus.index}__].scoresheetPlayers[__${hstatus2.index}__].passedBalls}" 
+				       			 type="text"  th:errorclass="input-error" class="text-input"/>
+				       </td>
+				       <td style="padding:5px;" th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       <button type="button" class="btn btn-sm" name="action"
+					    	th:value="'home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
+					    	  Add
+					    	</button>
+				       </td>
+				       <td style="padding:5px;" th:class="__${hstatus2.index}__ == 0  ? 'scoresheet-top-lineuporder-cell' : 'scoresheet-normal-cell'">
+				       <button type="button" class="btn btn-sm" name="action"
+					    	th:value="'delete_home:' + ${hlineupOrder.lineupOrderPosition} + ':' +  __${hstatus2.index}__">
+					    	  Delete
+					    	 </button>
+				       </td>
+			       </tr>
+			   </span>
+			</span>
+		</tbody>
+		</table>
+		<div style="margin-top: 20px;">
+		
+		<table class="scoresheet">
+		<thead>
+			<tr>
+				<th style="width: 250px;">V-Pitcher</th>
+				<th>IP</th>
+				<th>H</th>
+				<th>R</th>
+				<th>ER</th>
+				<th>BB</th>
+				<th>SO</th>
+				<th>HR</th>
+				<th>BLK</th>
+				<th>W</th>
+				<th>L</th>
+				<th>SV</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<span th:each="vpitcher,status : ${form.visitorPitchers}" th:for="|vpitcher${status.index}|"  th:remove="tag">
+			<tr th:id="'pitcher:row:visitor:' + ${vpitcher.pitcherOrder}">
+			 	<td class="scoresheet-normal-cell">
+			    	<select  class="chosen-select" th:field="*{visitorPitchers[__${status.index}__].playerId}"
+			    		data-placeholder="Choose a Pitcher..." style="width:250px;">
+		                <option value=""></option>
+		                <option th:each="vpitd : ${visitingPitchersDropdown}" th:value="${vpitd.id}" th:text="${vpitd.name} + ' ' + ${vpitd.primaryPosition}"></option>
+		            </select>
+		       	</td>
+				<td th:class="scoresheet-normal-cell">
+		       		<input th:field="*{visitorPitchers[__${status.index}__].wholePlusPartialInningsPitched}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>
+		        </td>
+				<td class="scoresheet-normal-cell">
+		       		<input th:field="*{visitorPitchers[__${status.index}__].hits}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>
+		        </td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{visitorPitchers[__${status.index}__].runs}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{visitorPitchers[__${status.index}__].earnedRuns}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{visitorPitchers[__${status.index}__].walks}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{visitorPitchers[__${status.index}__].strikeouts}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{visitorPitchers[__${status.index}__].homeruns}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{visitorPitchers[__${status.index}__].balks}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				
+				<td class="scoresheet-normal-cell scoresheet-checkbox">
+					<input th:field="*{visitorPitchers[__${status.index}__].win}" 
+		       			 type="checkbox" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				
+				<td class="scoresheet-normal-cell scoresheet-checkbox">
+					<input th:field="*{visitorPitchers[__${status.index}__].loss}" 
+		       			 type="checkbox" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				
+				<td class="scoresheet-normal-cell scoresheet-checkbox">
+					<input th:field="*{visitorPitchers[__${status.index}__].save}" 
+		       			 type="checkbox" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				
+				<td class="scoresheet-normal-cell">
+					<button type="button" class="btn btn-sm" name="action"
+					    	th:value="'pitcher:add:visitor:' + *{visitorPitchers[__${status.index}__].pitcherOrder}">
+					    	  Add
+					 </button>
+				</td>
+				<td class="scoresheet-normal-cell">
+					<button type="button" class="btn btn-sm" name="action"
+					    	th:value="'pitcher:delete:visitor:' + *{visitorPitchers[__${status.index}__].pitcherOrder}">
+					    	  Delete
+					 </button>
+				</td>
+			</tr>
+		</span>
+		</tbody>
+		</table>
+		</div>
+		<div style="margin-top: 20px;">
+		<table class="scoresheet">
+		<thead>
+			<tr>
+				<th style="width: 250px;">H-Pitcher</th>
+				<th>IP</th>
+				<th>H</th>
+				<th>R</th>
+				<th>ER</th>
+				<th>BB</th>
+				<th>SO</th>
+				<th>HR</th>
+				<th>BLK</th>
+				<th>W</th>
+				<th>L</th>
+				<th>SV</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<span th:each="hpitcher,status : ${form.homePitchers}" th:for="|hpitcher${status.index}|"  th:remove="tag">
+			<tr th:id="'pitcher:row:home:' + ${hpitcher.pitcherOrder}">
+				<td class="scoresheet-normal-cell">
+			    	<select  class="chosen-select"  th:field="*{homePitchers[__${status.index}__].playerId}"
+			    		data-placeholder="Choose a Pitcher..." style="width:250px;">
+		                <option value=""></option>
+		                <option th:each="hpitd : ${homePitchersDropdown}" th:value="${hpitd.id}" th:text="${hpitd.name} + ' ' + ${hpitd.primaryPosition}"></option>
+		            </select>
+		       	</td>
+				<td th:class="scoresheet-normal-cell">
+		       		<input th:field="*{homePitchers[__${status.index}__].wholePlusPartialInningsPitched}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>
+		        </td>
+				<td th:class="scoresheet-normal-cell">
+		       		<input th:field="*{homePitchers[__${status.index}__].hits}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>
+		        </td>
+		        
+		        <td class="scoresheet-normal-cell">
+					<input th:field="*{homePitchers[__${status.index}__].runs}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{homePitchers[__${status.index}__].earnedRuns}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{homePitchers[__${status.index}__].walks}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{homePitchers[__${status.index}__].strikeouts}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{homePitchers[__${status.index}__].homeruns}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				<td class="scoresheet-normal-cell">
+					<input th:field="*{homePitchers[__${status.index}__].balks}" 
+		       			 type="text" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				
+				<td class="scoresheet-normal-cell scoresheet-checkbox">
+					<input th:field="*{homePitchers[__${status.index}__].win}" 
+		       			 type="checkbox" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				
+				<td class="scoresheet-normal-cell scoresheet-checkbox">
+					<input th:field="*{homePitchers[__${status.index}__].loss}" 
+		       			 type="checkbox" th:errorclass="input-error" class="text-input"/>	
+				</td>
+				
+				<td class="scoresheet-normal-cell scoresheet-checkbox">
+					<input th:field="*{homePitchers[__${status.index}__].save}" 
+		       			 type="checkbox" th:errorclass="input-error" class="text-input"/>	
+				</td>
+		        
+				<td class="scoresheet-normal-cell">
+					<button type="button" class="btn btn-sm" name="action"
+					    	th:value="'pitcher:add:home:' + *{homePitchers[__${status.index}__].pitcherOrder}">
+					    	  Add
+					 </button>
+				</td>
+				<td class="scoresheet-normal-cell">
+					<button type="button" class="btn btn-sm" name="action"
+					    	th:value="'pitcher:delete:home:' + *{homePitchers[__${status.index}__].pitcherOrder}">
+					    	  Delete
+					 </button>
+				</td>
+			</tr>
+		</span>
+		</tbody>
+		</table>
+		</div>
+		<div class="form-actions"  style="padding-top:10px; padding-bottom:50px">
+			<button class="btn btn-primary btn-lg" style="padding-left: 20px; padding-right: 20px;" type="submit"
+				name="action">Submit</button>
+		</div>
+	</form>
+</div>
+
+<span  layout:fragment="script">
+
+ <script type="text/javascript" src="/js/scoresheet.js"></script>
+</span>
+</body>
+
+</html>

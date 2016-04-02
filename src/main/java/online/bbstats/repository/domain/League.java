@@ -23,7 +23,7 @@ public class League {
 	private String name;
 	
 	@OneToMany(mappedBy="league")
-	private List<Team> teams;
+    private List<TeamLeague> teamLeagues;
 	
 	public League() {
 		
@@ -44,16 +44,5 @@ public class League {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public List<Team> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
-	}
-	
-	
-	
 	
 }

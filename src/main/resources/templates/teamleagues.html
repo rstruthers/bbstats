@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+<head lang="en">
+<title>View Teams</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css" href="C:\dev-tools\github\bbstats\src\main\webapp\css\bbstats.css"/>
+
+</head>
+<body>
+
+	<div class="container" layout:fragment="content">
+		<h1 style="text-align: center;">Teams</h1>
+
+			<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>League</th>
+					<th>Location</th>
+					<th>Name</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="team : ${teams}">
+					<td th:text="${team.league}">league</td>
+					<td th:text="${team.location}">location</td>
+					<td th:text="${team.name}">name</td>
+					<td th:text="${team.formattedStartDate}">start date</td>
+					<td th:text="${team.formattedEndDate}">end date</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+
+</body>
+</html>

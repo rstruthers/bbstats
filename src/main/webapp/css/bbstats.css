@@ -66,6 +66,10 @@ body {
 	z-index: 2;
 }
 
+.form-bbstats label {
+	text-align: left;
+}
+
 .form-bbstats input[type="email"] {
 	margin-bottom: -1px;
 	border-bottom-right-radius: 0;
