@@ -11,4 +11,4 @@
 
 *.log
 
-application.properties.save
+application-prod.properties
