@@ -46,12 +46,19 @@ public class SpreadsheetWrapper {
 
     public void readRowRecords() {
         int lastRowNum = sheet.getLastRowNum();
+        System.out.println("lastRowNum: " + lastRowNum);
         recordValueMaps = new ArrayList<Map<String, String>>();
-        
+        int numNullRowsAllowed = 10;
+        int numNullRows = 0;
         for (int r = headerRowIndex + 1; r <= lastRowNum; r++) {
             XSSFRow row = sheet.getRow(r);
             if (row == null) {
                 System.out.println(">> row is null");
+                numNullRows++;
+                if (numNullRows > numNullRowsAllowed) {
+                    System.out.println("Exceded max number of null rows");
+                    break;
+                }
                 continue;
             }
             recordValueMaps.add(createRecordValueMap(row));
