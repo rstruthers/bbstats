@@ -31,17 +31,16 @@ $(document).ready(function() {
     });
 
     $('input.text-input').keyup(function(e) {
-        /**
-         * if (e.which == 39)
-         * $(this).closest('td').next().find('input').focus(); else if (e.which ==
-         * 37) $(this).closest('td').prev().find('input').focus(); else
-         */
-        if (e.which == 40)
-            $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find('input').focus();
-        else if (e.which == 38)
-            $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find('input').focus();
+          if (e.ctrlKey && e.which == 39)
+              $(this).closest('td').next().find('input').focus(); 
+          else if (e.ctrlKey && e.which == 37)
+              $(this).closest('td').prev().find('input').focus();
+          else if (e.which == 40)
+              $(this).closest('tr').next().find('td:eq(' + $(this).closest('td').index() + ')').find('input').focus();
+          else if (e.which == 38)
+              $(this).closest('tr').prev().find('td:eq(' + $(this).closest('td').index() + ')').find('input').focus();
     });
-
+          
     $("button[value^='visitor:']").each(function() {
         $(this).click(function() {
             addLineupOrderRow($(this));
@@ -446,8 +445,8 @@ $(document).ready(function() {
             row.find("input[name = '" + oldInputName + "']").attr('name', newInputName);
             
             /**
-             * <input type="hidden" name="_visitorPitchers[1].win" value="on"> 
-                </td>
+             * <input type="hidden" name="_visitorPitchers[1].win" value="on">
+             * </td>
              */
             // update index on hidden input for checkboxes
             var oldHiddenInputName = "_" + whichTeam + "Pitchers[" + oldPitcherIndex + "]." + fieldName;
