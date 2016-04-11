@@ -131,5 +131,24 @@ public class RosterService {
 	    }
 	    return teamPlayerRepository.findByTeamIdActiveAtDate(teamLeague.getTeam().getId(), date);
 	}
+
+    public void deleteRoster(Team team, Season season) {
+        List<TeamPlayer> teamPlayers = teamPlayerRepository.findByTeamIdActiveAtDate(team.getId(), season.getStartDate());
+        for (TeamPlayer teamPlayer: teamPlayers) {
+            try {
+                deleteTeamPlayerPositions(teamPlayer);
+                teamPlayerRepository.delete(teamPlayer);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private void deleteTeamPlayerPositions(TeamPlayer teamPlayer) {
+        List<TeamPlayerPosition> teamPlayerPositions = teamPlayer.getTeamPlayerPositions();
+        for (TeamPlayerPosition position: teamPlayerPositions) {
+            teamPlayerPositionRepository.delete(position);
+        }
+    }
 	
 }

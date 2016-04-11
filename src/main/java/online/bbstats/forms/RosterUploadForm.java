@@ -11,6 +11,8 @@ public class RosterUploadForm {
 	private SeasonModel season;
 	
 	private TeamModel team;
+	
+	private Boolean overwrite;
 
 	public MultipartFile getFile() {
 		return file;
@@ -34,5 +36,13 @@ public class RosterUploadForm {
 
     public void setTeam(TeamModel team) {
         this.team = team;
+    }
+
+    public Boolean getOverwrite() {
+        return overwrite;
+    }
+
+    public void setOverwrite(Boolean overwrite) {
+        this.overwrite = overwrite;
     }
 }

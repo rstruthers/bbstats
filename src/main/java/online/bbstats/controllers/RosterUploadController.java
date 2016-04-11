@@ -58,7 +58,7 @@ public class RosterUploadController {
 
     @RequestMapping(value = "/roster/upload", method = RequestMethod.POST)
     public String postRosterUploadForm(@RequestParam(name="file") MultipartFile file, @RequestParam(name="team") String teamName,
-            @RequestParam(name="season") String seasonName) {
+            @RequestParam(name="season") String seasonName, @RequestParam(name="overwrite") Boolean overwrite) {
         LOGGER.debug("Uploading roster");
 
         if (file == null) {
@@ -81,6 +81,10 @@ public class RosterUploadController {
 
         Team team = teamService.findTeamByName(teamName);
         Season season = seasonService.findSeasonByName(seasonName);
+        if (overwrite != null && overwrite.booleanValue() == true) {
+            rosterService.deleteRoster(team, season);
+        }
+        
         SpreadsheetWrapper spreadsheetWrapper = null;
 
         try {
